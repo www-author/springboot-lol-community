@@ -1,4 +1,4 @@
-package com.lol.community.global.config;
+package com.lol.community.global;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
