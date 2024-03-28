@@ -1,10 +1,12 @@
 package com.lol.community.board.domain;
 
+import com.lol.community.board.dto.response.BoardResponse;
 import com.lol.community.category.domain.Category;
 import com.lol.community.global.BaseEntity;
 import com.lol.community.user.domain.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.SQLDelete;
@@ -48,7 +50,7 @@ public class Board extends BaseEntity {
     private String content;
 
     @Column(name = "is_deleted", nullable = false, length = 1)
-    private Boolean is_deleted;
+    private Boolean isDeleted;
 
     @Column(name = "view_count", nullable = false)
     private Integer viewCount;
@@ -58,4 +60,35 @@ public class Board extends BaseEntity {
 
     @Column(name = "dislike_count", nullable = false)
     private Integer dislikeCount;
+
+    @Builder
+    public Board(
+            Integer userId,
+            Integer categoryId,
+            String boardType,
+            String title,
+            String content
+    ) {
+        // TODO FK 추가
+        this.boardType = boardType;
+        this.title = title;
+        this.content = content;
+    }
+
+    public BoardResponse toResponse() {
+        return BoardResponse.builder()
+                .id(this.id)
+                .categoryId(this.category.getId())
+                .userId(this.user.getId())
+                .boardType(this.boardType)
+                .title(this.title)
+                .content(this.content)
+                .viewCount(this.viewCount)
+                .likeCount(this.likeCount)
+                .dislikeCount(this.dislikeCount)
+                .isDeleted(this.isDeleted)
+                .createdAt(this.getCreatedAt())
+                .updatedAt(this.getUpdatedAt())
+                .build();
+    }
 }
