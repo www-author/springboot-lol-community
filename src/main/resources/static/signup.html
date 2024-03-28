@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>롤 정보 공유 커뮤니티</title>
+    <style>
+        /* header section starts */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 80px;
+            background-color: #424242;
+        }
+
+        .header_wrap {
+            width: 1920px;
+            max-width: 1920px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header_wrap img {
+            display: box;
+            width: 150px;
+            height: 70px;
+            margin-left: 150px;
+        }
+
+        .header_wrap nav a {
+            color: white;
+            font-size: 16px;
+            font-weight: 700;
+            text-decoration: none;
+            margin-right: 15px;
+        }
+        /* header section ends */
+
+        /* main section starts */
+        .main_container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 100px;
+        }
+
+        .main_container img {
+            margin-top: 40px;
+            margin-bottom: 30px;
+            width: 500px;
+            height: 60px;
+        }
+
+        .main_container form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .main_container form input {
+            margin-bottom: 15px;
+            width: 280px;
+            height: 40px;
+            font-size: 15px;
+            padding-left: 10px;
+            border: 1.5px solid black;
+            box-sizing: border-box;
+        }
+
+        .main_container form select {
+            margin-bottom: 15px;
+            width: 280px;
+            height: 40px;
+            padding-left: 10px;
+            border: 1.5px solid black;
+            font-size: 15px;
+            color: grey;
+            box-sizing: border-box;
+        }
+
+        form button {
+            margin-top: 25px;
+            width: 100px;
+            height: 46px;
+            background-color: #424242;
+            font-weight: 700;
+            color: white;
+        }
+        /* main section ends */
+
+        /* footer section starts */
+        footer {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            margin: 0px;
+            height: 80px;
+            background-color: #424242;
+        }
+
+        .footer_wrap {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            max-width: 1920px;
+            width: 1920px;
+        }
+
+        footer span {
+            margin-left: 650px;
+            margin-right: 400px;
+            color: white;
+            font-size: 17px;
+            font-weight: 600;
+        }
+        footer img {
+            width: 250px;
+            height: 50px;
+        }
+        /* footer section ends */
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header_wrap">
+            <img src="img/logo_top.png" alt="logo">
+            <nav>
+                <a href="">홈</a>
+                <a href="">자유 게시판</a>
+                <a href="">Report</a>
+                <a href="">설정</a>
+                <a href="">박지은님</a>
+                <a href="">로그아웃</a>
+            </nav>
+        </div>
+    </header>
+    <main class="main_container">
+        <img src="img/logo.png" alt="logo">
+        <form action="">
+            <input type="text" placeholder="아이디">
+            <input type="password" placeholder="비밀번호">
+            <input type="password" placeholder="비밀번호 확인">
+            <input type="email" placeholder="이메일">
+            <select name="" id="">
+                <option value="">등급</option>
+            </select>
+            <button type="submit">회원가입</button>
+        </form>
+    </main>
+    <footer>
+        <div class="footer_wrap">
+            <span>copyright team15</span>
+            <img src="img/footer_img.png" alt="">
+        </div>
+    </footer>
+</body>
+</html>
