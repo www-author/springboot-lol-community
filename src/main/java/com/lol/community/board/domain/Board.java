@@ -47,7 +47,7 @@ public class Board extends BaseEntity {
     @Column(name = "content", nullable = false, columnDefinition = "text")
     private String content;
 
-    @Column(name = "is_deleted", length = 1, nullable = false)
+    @Column(name = "is_deleted", nullable = false)
     private Boolean isDeleted;
 
     @Column(name = "view_count", nullable = false)
