@@ -5,16 +5,14 @@ import com.lol.community.category.domain.Category;
 import com.lol.community.global.BaseEntity;
 import com.lol.community.user.domain.User;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@EqualsAndHashCode(callSuper = true)
 @SQLDelete(sql = "UPDATE board SET is_deleted = true WHERE id = ?")
 public class Board extends BaseEntity {
     @Id
