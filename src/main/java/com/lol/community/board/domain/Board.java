@@ -46,10 +46,10 @@ public class Board extends BaseEntity {
     @Column(name = "title", nullable = false)
     private String title;
 
-    @Column(name = "content", nullable = false)
+    @Column(name = "content", nullable = false, columnDefinition = "text")
     private String content;
 
-    @Column(name = "is_deleted", nullable = false, length = 1)
+    @Column(name = "is_deleted", length = 1, nullable = false)
     private Boolean isDeleted;
 
     @Column(name = "view_count", nullable = false)
@@ -63,16 +63,22 @@ public class Board extends BaseEntity {
 
     @Builder
     public Board(
-            Integer userId,
-            Integer categoryId,
+            User user,
+            Category category,
             String boardType,
             String title,
             String content
     ) {
-        // TODO FK 추가
+        this.user = user;
+        this.category = category;
         this.boardType = boardType;
         this.title = title;
         this.content = content;
+        this.isDeleted = Boolean.FALSE;
+        this.viewCount = 0;
+        this.likeCount = 0;
+        this.dislikeCount = 0;
+
     }
 
     public BoardResponse toResponse() {

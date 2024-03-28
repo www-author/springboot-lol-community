@@ -1,6 +1,5 @@
 package com.lol.community.board.controller;
 
-import com.lol.community.board.domain.Board;
 import com.lol.community.board.dto.request.BoardRequest;
 import com.lol.community.board.dto.response.BoardResponse;
 import com.lol.community.board.service.BoardService;
