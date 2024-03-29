@@ -1,5 +1,6 @@
 package com.lol.community.board.domain;
 
+import com.lol.community.board.dto.request.BoardRequest;
 import com.lol.community.board.dto.response.BoardResponse;
 import com.lol.community.category.domain.Category;
 import com.lol.community.global.BaseEntity;
@@ -17,7 +18,7 @@ import org.hibernate.annotations.SQLDelete;
 public class Board extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "id", updatable = false)
     private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -61,12 +62,14 @@ public class Board extends BaseEntity {
 
     @Builder
     public Board(
+            Integer id,
             User user,
             Category category,
             String boardType,
             String title,
             String content
     ) {
+        this.id = id;
         this.user = user;
         this.category = category;
         this.boardType = boardType;
@@ -76,7 +79,6 @@ public class Board extends BaseEntity {
         this.viewCount = 0;
         this.likeCount = 0;
         this.dislikeCount = 0;
-
     }
 
     public BoardResponse toResponse() {
@@ -94,5 +96,12 @@ public class Board extends BaseEntity {
                 .createdAt(this.getCreatedAt())
                 .updatedAt(this.getUpdatedAt())
                 .build();
+    }
+
+    // TODO 파일 변경 등 엔티티도 고려
+    public void update(BoardRequest request) {
+        this.category = request.toEntity().getCategory();
+        this.title = request.getTitle();
+        this.content = request.getContent();
     }
 }
