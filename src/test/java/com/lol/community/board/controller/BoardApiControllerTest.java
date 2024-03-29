@@ -22,11 +22,11 @@ import org.springframework.web.context.WebApplicationContext;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
@@ -132,5 +132,29 @@ class BoardApiControllerTest {
                 .orElseThrow(IllegalAccessException::new);
 
         assertEquals(board, updated);
+    }
+
+    @Test
+    void 게시글_삭제_통합_테스트() throws Exception {
+        //given
+        Board board = Board.builder()
+                .id(1)
+                .user(new User(1))
+                .category(new Category(2))
+                .boardType(BoardType.REPORT.name())
+                .title("title")
+                .content("content")
+                .build();
+
+        when(boardRepository.save(any())).thenReturn(board);
+        when(boardRepository.findById(anyInt())).thenReturn(Optional.of(board));
+        Integer id = boardRepository.save(board).getId();
+
+        //when
+        ResultActions resultActions = mockMvc.perform(delete("/api/board/{id}", id));
+
+        //then
+        resultActions.andExpect(status().isOk());
+        assertFalse(boardRepository.existsById(id));
     }
 }
