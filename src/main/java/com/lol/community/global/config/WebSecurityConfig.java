@@ -11,6 +11,6 @@ public class WebSecurityConfig {
     @Bean // 특정 대상 스프링 시큐리티 기능 비활성화
     public WebSecurityCustomizer configure() {
         return web -> web.ignoring()
-                .requestMatchers("/static/**","/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html");
+                .requestMatchers("/static/**","/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html", "/board/free/**");
     }
 }

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+  <h1>Board Write</h1>
+  <form th:action="@{/board/free/write}" th:method="post">
+    <select name="categoryId">
+      <option selected>카테고리</option>
+      <option value="n">잡담</option>
+      <option value="i">정보</option>
+      <option value="q">질문</option>
+    </select>
+    <select name="categoryId">
+      <option selected>카테고리</option>
+      <option value="n">잡담</option>
+      <option value="i">정보</option>
+      <option value="q">질문</option>
+    </select>
+    <input type="text" name="title" placeholder="제목">
+    <textarea rows="5" name="content" placeholder="내용"></textarea>
+    <button type="submit">등록</button>
+  </form>
+</body>
+</html>

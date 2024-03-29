@@ -12,9 +12,9 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BoardResponse {
-    private Integer id;
-    private Integer categoryId;
-    private Integer userId;
+    private Long id;
+    private Long categoryId;
+    private Long userId;
     private String boardType;
     private String title;
     private String content;

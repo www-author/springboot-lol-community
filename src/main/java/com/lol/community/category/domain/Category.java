@@ -16,7 +16,7 @@ public class Category extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
-    private Integer id;
+    private Long id;
 
     @Column(name = "category_name", nullable = false)
     private String categoryName;
@@ -32,7 +32,7 @@ public class Category extends BaseEntity {
     private List<Category> children = new ArrayList<>();
 
     @Builder
-    public Category(Integer id) {
+    public Category(Long id) {
         this.id = id;
     }
 }

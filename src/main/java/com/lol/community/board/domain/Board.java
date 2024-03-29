@@ -15,12 +15,13 @@ import org.hibernate.annotations.SQLDelete;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Builder
 @SQLDelete(sql = "UPDATE board SET is_deleted = true WHERE id = ?")
 public class Board extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Integer id;
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
@@ -96,5 +97,11 @@ public class Board extends BaseEntity {
                 .createdAt(this.getCreatedAt())
                 .updatedAt(this.getUpdatedAt())
                 .build();
+    }
+
+    public void modify(String title, String content, String category){
+        this.title = title;
+        this.content = content;
+//        this.category = category;
     }
 }

@@ -12,15 +12,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BoardRequest {
-    private Integer userId;
-    private Integer categoryId;
+    private Long userId;
+    private Long categoryId;
     private BoardType boardType;
     private String title;
     private String content;
 
     public Board toEntity() {
+        User user = User.builder().id(userId).build();
+
         return Board.builder()
-                .user(new User(this.userId))
+                .user(user)
                 .category(new Category(this.categoryId))
                 .boardType(this.boardType.name())
                 .title(this.title)
