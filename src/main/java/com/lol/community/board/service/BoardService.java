@@ -31,4 +31,9 @@ public class BoardService {
         board.update(request);
         return board;
     }
+
+    public void deleteById(Integer id) {
+        Board board = findById(id);
+        boardRepository.delete(board);
+    }
 }

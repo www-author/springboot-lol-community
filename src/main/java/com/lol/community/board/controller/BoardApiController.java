@@ -45,4 +45,11 @@ public class BoardApiController {
         Board board = boardService.modify(id, request);
         return ResponseEntity.ok(board.toResponse());
     }
+
+    @DeleteMapping("/{id}")
+    @Operation(summary = "게시글 삭제", description = "게시글 ID 기반의 게시글 삭제")
+    public ResponseEntity<Void> deleteArticle(@PathVariable("id") Integer id) {
+        boardService.deleteById(id);
+        return ResponseEntity.ok().build();
+    }
 }
