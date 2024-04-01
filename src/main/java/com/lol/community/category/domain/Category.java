@@ -1,7 +1,9 @@
 package com.lol.community.category.domain;
 
+import com.lol.community.category.dto.CategoryResponse;
 import com.lol.community.global.BaseEntity;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,6 +14,7 @@ import java.util.List;
 @Getter
 @Entity
 @NoArgsConstructor
+@AllArgsConstructor
 public class Category extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,5 +37,12 @@ public class Category extends BaseEntity {
     @Builder
     public Category(Integer id) {
         this.id = id;
+    }
+
+    public CategoryResponse toResponse() {
+        return CategoryResponse.builder()
+                .id(id)
+                .name(categoryName)
+                .build();
     }
 }
