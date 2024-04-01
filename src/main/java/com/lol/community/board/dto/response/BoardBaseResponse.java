@@ -1,6 +1,5 @@
 package com.lol.community.board.dto.response;
 
-import com.lol.community.board.domain.Board;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,22 +11,17 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class BoardResponse {
+public class BoardBaseResponse {
     private Integer id;
+    private Integer categoryId;
+    private Integer userId;
     private String boardType;
-    private String writer;
     private String title;
     private String content;
+    private Boolean isDeleted;
     private Integer viewCount;
     private Integer likeCount;
+    private Integer dislikeCount;
     private LocalDateTime createdAt;
-
-    public BoardResponse(Board board) {
-        id = board.getId();
-        writer = board.getUser().getName();
-        title = board.getTitle();
-        viewCount = board.getViewCount();
-        likeCount = board.getLikeCount();
-        createdAt = board.getCreatedAt();
-    }
+    private LocalDateTime updatedAt;
 }
