@@ -1,39 +1,20 @@
 package com.lol.community.board.service;
 
 import com.lol.community.board.domain.Board;
+import com.lol.community.board.domain.BoardType;
 import com.lol.community.board.dto.request.BoardRequest;
-import com.lol.community.board.repository.BoardRepository;
-import jakarta.transaction.Transactional;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import com.lol.community.board.dto.response.BoardResponse;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
-@Service
-@RequiredArgsConstructor
-public class BoardService {
-    private final BoardRepository boardRepository;
+public interface BoardService {
+    Page<BoardResponse> findPageByBoardType(BoardType boardType, Pageable pageable);
 
-    public Board save(BoardRequest request) {
-        return boardRepository.save(request.toEntity());
-    }
+    Board save(BoardRequest request, String email);
 
-    public Board findById(Integer id) {
-        return boardRepository
-                .findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 존재하지 않습니다. (id : " + id + ")"));
-    }
+    Board findById(Integer id);
 
-    @Transactional
-    public Board modify(
-            Integer id,
-            BoardRequest request
-    ) {
-        Board board = findById(id);
-        board.update(request);
-        return board;
-    }
+    Board modify(Integer id, BoardRequest request);
 
-    public void deleteById(Integer id) {
-        Board board = findById(id);
-        boardRepository.delete(board);
-    }
+    void deleteById(Integer id);
 }

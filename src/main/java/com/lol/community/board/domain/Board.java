@@ -1,7 +1,7 @@
 package com.lol.community.board.domain;
 
 import com.lol.community.board.dto.request.BoardRequest;
-import com.lol.community.board.dto.response.BoardResponse;
+import com.lol.community.board.dto.response.BoardBaseResponse;
 import com.lol.community.category.domain.Category;
 import com.lol.community.global.BaseEntity;
 import com.lol.community.user.domain.User;
@@ -54,6 +54,7 @@ public class Board extends BaseEntity {
     @Column(name = "view_count", nullable = false)
     private Integer viewCount;
 
+    // TODO 반응 (좋아요, 싫어요) 변수는 엔티티 컬럼에서 제외하나 변수로 사용하도록 JPA 어노테이션 수정할 것!
     @Column(name = "like_count", nullable = false)
     private Integer likeCount;
 
@@ -81,8 +82,8 @@ public class Board extends BaseEntity {
         this.dislikeCount = 0;
     }
 
-    public BoardResponse toResponse() {
-        return BoardResponse.builder()
+    public BoardBaseResponse toResponse() {
+        return BoardBaseResponse.builder()
                 .id(this.id)
                 .categoryId(this.category.getId())
                 .userId(this.user.getId())
@@ -99,8 +100,9 @@ public class Board extends BaseEntity {
     }
 
     // TODO 파일 변경 등 엔티티도 고려
+    // TODO !! User 정보에 따라 업데이트!!!
     public void update(BoardRequest request) {
-        this.category = request.toEntity().getCategory();
+        this.category = request.toEntityByUser(new User()).getCategory();
         this.title = request.getTitle();
         this.content = request.getContent();
     }
