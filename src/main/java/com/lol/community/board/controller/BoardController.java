@@ -14,19 +14,21 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
 @Controller
+@RequestMapping("/board")
 public class BoardController {
     private final BoardService boardService;
     private final CategoryService categoryService;
-    @GetMapping("/reports")
-    public String getArticles(
+    @GetMapping("/report")
+    public String getArticlesOfReport(
             @PageableDefault(
-                    size = 5,
+                    size = 15,
                     sort = "createdAt",
                     direction = Sort.Direction.DESC
             ) Pageable pageable,
@@ -37,15 +39,33 @@ public class BoardController {
         model.addAttribute("categories", categoryResponses);
         model.addAttribute("articles", boardService.findPageByBoardType(BoardType.REPORT, pageable));
         model.addAttribute("boardType", boardType);
-        return "report";
+        return "board";
     }
 
-    @GetMapping("/new-board/{boardType}")
+    @GetMapping("/free")
+    public String getArticlesOfFree(
+            @PageableDefault(
+                    size = 15,
+                    sort = "createdAt",
+                    direction = Sort.Direction.DESC
+            ) Pageable pageable,
+            Model model
+    ) {
+        String boardType = BoardType.FREE.name();
+        List<CategoryResponse> categoryResponses = categoryService.findCategoriesByBoardType(boardType);
+        model.addAttribute("categories", categoryResponses);
+        model.addAttribute("articles", boardService.findPageByBoardType(BoardType.FREE, pageable));
+        model.addAttribute("boardType", boardType);
+        return "board";
+    }
+
+
+    @GetMapping("/new/{boardType}")
     public String showArticle(
             @PathVariable("boardType") String type,
             Model model
     ) {
-        String boardType = BoardType.valueOf(type).name();
+        String boardType = BoardType.valueOf(type.toUpperCase()).name();
         List<CategoryResponse> categoryResponses = categoryService.findCategoriesByBoardType(boardType);
         BoardResponse boardResponse = BoardResponse.builder()
                 .boardType(boardType)

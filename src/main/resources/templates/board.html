@@ -22,7 +22,7 @@
             </select>
             <label for="search-txt"></label>
             <input type="text" id="search-txt" placeholder="제목+내용">
-            <button class="btn-info" th:onclick="|location.href='@{/new-board/{boardType}(boardType=${boardType})}'|">글쓰기</button>
+            <button class="btn-info" th:onclick="|location.href='@{/board/new/{boardType}(boardType=${boardType.toLowerCase()})}'|">글쓰기</button>
         </section>
         <table class="table">
             <thead>
@@ -38,7 +38,7 @@
             <tbody>
                 <tr th:each="article, list:${articles}">
                     <td th:text="${list.index+1}"></td>
-                    <td><a th:href="@{/reports/(id=${article.id})}" th:text="${article.title}"></a></td>
+                    <td><a th:href="@{/board/(id=${article.id})}" th:text="${article.title}"></a></td>
                     <td th:text="${article.writer}"></td>
                     <!--TODO 당일 여부 조건에 따른 포맷팅 변환 처리-->
                     <td th:text="${#temporals.format(article.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
@@ -60,17 +60,17 @@
                 <li th:classappend="${articles.first} ? 'disabled'" class="page-item">
                     <a class="page-link"
                          href = "#"
-                         th:href="@{${articles.first ? '#' : '/reports(page=${pageNumber - 1})'}}">
+                         th:href="@{${articles.first ? '#' : '/board(page=${pageNumber - 1})'}}">
                         <span aria-hidden="true">&lt;</span>
                     </a>
                 </li>
 
                 <li th:each="page: ${#numbers.sequence(startPage, endPage)}" th:classappend="${page == pageNumber + 1} ? 'active'" class="page-item">
-                    <a th:text="${page}" class="page-link" th:href="@{/reports(page=${page - 1})}"></a>
+                    <a th:text="${page}" class="page-link" th:href="@{/board/(page=${page - 1})}"></a>
                 </li>
 
                 <li th:classappend="${articles.last} ? 'disabled'" class="page-item">
-                    <a class="page-link" th:href="@{${articles.last ? '#' : '/reports(page=${pageNumber - 1})'}}" aria-label="Next">
+                    <a class="page-link" th:href="@{${articles.last ? '#' : '/board(page=${pageNumber - 1})'}}" aria-label="Next">
                         <span aria-hidden="true">&gt;</span>
                     </a>
                 </li>
