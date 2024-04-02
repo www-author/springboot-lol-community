@@ -5,8 +5,20 @@ if (createButton) {
     createButton.addEventListener('click', () => {
         let selectedCategoryId = Number(document.getElementById('category-box').value)
         let boardType = document.getElementById('boardType').value;
-        if (isNaN(selectedCategoryId) || selectedCategoryId === 0) {
-            alert('카테고리를 선택하세요.')
+        let title = document.getElementById('title').value;
+        let content = document.getElementById('content').value;
+
+        let message = '';
+        if (isNaN(selectedCategoryId) ||  selectedCategoryId === 0) {
+            message = '카테고리를 선택하세요.';
+        } else if (!title ||  !title.trim()) {
+            message = '제목을 입력하세요.';
+        } else if (!content ||  !content.trim()) {
+            message = '내용을 입력하세요.';
+        }
+
+        if(message.length !== 0) {
+            alert(message);
             return;
         }
 
@@ -18,8 +30,8 @@ if (createButton) {
             body: JSON.stringify({
                 boardType: boardType,
                 categoryId: selectedCategoryId,
-                title: document.getElementById('title').value,
-                content : document.getElementById('content').value
+                title: title,
+                content: content
             }),
         })
             .catch(e => console.error(e))
