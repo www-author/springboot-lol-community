@@ -59,18 +59,16 @@
 
                 <li th:classappend="${articles.first} ? 'disabled'" class="page-item">
                     <a class="page-link"
-                         href = "#"
-                         th:href="@{${articles.first ? '#' : '/board(page=${pageNumber - 1})'}}">
+                         th:href="${articles.first} ? '#' : '/board/' + ${boardType.toLowerCase()} + '?page=' + ${pageNumber - 1}">
                         <span aria-hidden="true">&lt;</span>
                     </a>
                 </li>
 
                 <li th:each="page: ${#numbers.sequence(startPage, endPage)}" th:classappend="${page == pageNumber + 1} ? 'active'" class="page-item">
-                    <a th:text="${page}" class="page-link" th:href="@{/board/(page=${page - 1})}"></a>
+                    <a th:text="${page}" class="page-link" th:href="@{'/board/' + ${boardType.toLowerCase()} + '?page=' + ${page - 1}}"></a>
                 </li>
-
-                <li th:classappend="${articles.last} ? 'disabled'" class="page-item">
-                    <a class="page-link" th:href="@{${articles.last ? '#' : '/board(page=${pageNumber - 1})'}}" aria-label="Next">
+                <li th:classappend="${articles.last} ? 'disabled'" class="page-item" >
+                    <a class="page-link" th:href="${articles.last} ? '#' : '/board/' + ${boardType.toLowerCase()} + '?page=' + ${pageNumber + 1}" aria-label="Next">
                         <span aria-hidden="true">&gt;</span>
                     </a>
                 </li>
