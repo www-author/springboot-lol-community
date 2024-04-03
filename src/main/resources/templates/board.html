@@ -47,7 +47,7 @@
             글쓰기
         </button>
     </section>
-        <table class="table table-hover table-border">
+        <table class="table table-hover table-border" style="text-align: center">
             <thead class="table-dark">
                 <tr>
                     <th scope="col">번호</th>
@@ -58,13 +58,13 @@
                     <th scope="col">추천수</th>
                 </tr>
             </thead>
-            <tbody class="table-group-divider">
+            <tbody class="table-group-divider center">
                 <tr th:if="${articles.isEmpty()}" class="table-active">
                     <td colspan='6' style="text-align: center">게시글 목록이 존재하지 않습니다.</td>
                 </tr>
                 <tr th:each="article, list:${articles}">
                     <td th:text="${list.index+1}"></td>
-                    <td><a th:href="@{/board/(id=${article.id})}" th:text="${article.title}"></a></td>
+                    <td style="text-align: left"><a th:href="@{/board/(id=${article.id})}" th:text="${article.title}"></a></td>
                     <td th:text="${article.writer}"></td>
                     <!--TODO 당일 여부 조건에 따른 포맷팅 변환 처리-->
                     <td th:text="${#temporals.format(article.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
