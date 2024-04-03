@@ -3,6 +3,7 @@ package com.lol.community.board.service;
 import com.lol.community.board.domain.Board;
 import com.lol.community.board.domain.BoardType;
 import com.lol.community.board.dto.request.BoardRequest;
+import com.lol.community.board.dto.request.BoardSearchRequest;
 import com.lol.community.board.dto.response.BoardResponse;
 import com.lol.community.board.repository.BoardRepository;
 import com.lol.community.user.domain.User;
@@ -14,6 +15,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -58,13 +60,39 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     public Page<BoardResponse> findPageByBoardType(
-            BoardType boardType,
-            Pageable pageable
+            String boardType,
+            Pageable pageable,
+            BoardSearchRequest request
     ) {
-        Page<Board> boardPage = boardRepository.findAllByBoardType(boardType.name(), pageable);
-        List<BoardResponse> responses = boardPage.stream()
-                .map(BoardResponse::new)
-                .toList();
+        Page<Board> boardPage = Page.empty(pageable);
+
+        if (request.isEmptyCategory() & request.isEmptyKeyword()) {
+            boardPage = boardRepository.findAllByBoardTypeAndIsDeletedIsFalse(boardType, pageable);
+        } else {
+            boardPage = boardRepository.findAllByBoardTypeAndTitleContainingIgnoreCaseAndIsDeletedIsFalse(
+                    boardType,
+                    request.getKeyword(),
+                    pageable
+            );
+        }
+
+        List<BoardResponse> responses = new ArrayList<>();
+        if (request.isEmptyCategory()) {
+            responses = boardPage.stream()
+                    .map(BoardResponse::new)
+                    .toList();
+        } else {
+            responses = boardPage.stream()
+                    .filter(board -> board.getCategory().getId().equals(request.getCategories()))
+                    .map(BoardResponse::new)
+                    .toList();
+        }
+
+        // TODO 권한 조회
+        if(BoardType.FREE.name().equals(boardType)) {
+
+        }
+
         return new PageImpl<>(responses, pageable, boardPage.getTotalElements());
     }
 

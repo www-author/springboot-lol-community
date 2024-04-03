@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @Slf4j
-@RequestMapping("/api")
+@RequestMapping("/api/board")
 @Tag(name = "게시판 CRUD")
 @RequiredArgsConstructor
 public class BoardApiController {

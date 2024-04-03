@@ -8,5 +8,11 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BoardRepository extends JpaRepository<Board, Integer> {
-    Page<Board> findAllByBoardType(String boardType, Pageable pageable);
+    Page<Board> findAllByBoardTypeAndIsDeletedIsFalse(String boardType, Pageable pageable);
+
+    Page<Board> findAllByBoardTypeAndTitleContainingIgnoreCaseAndIsDeletedIsFalse(
+            String boardType,
+            String keyword,
+            Pageable pageable
+    );
 }

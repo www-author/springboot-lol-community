@@ -1,6 +1,6 @@
 package com.lol.community.category.domain;
 
-import com.lol.community.category.dto.CategoryResponse;
+import com.lol.community.category.dto.response.CategoryResponse;
 import com.lol.community.global.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

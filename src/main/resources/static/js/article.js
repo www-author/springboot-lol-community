@@ -22,7 +22,7 @@ if (createButton) {
             return;
         }
 
-        fetch(`/api/article`, {
+        fetch(`/api/board/article`, {
             method: 'POST',
             headers: {
                 "Content-Type" : "application/json"

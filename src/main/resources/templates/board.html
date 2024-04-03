@@ -12,20 +12,43 @@
 </section>
 
 <section class="container">
-        <section class="btn-area">
-            <select th:name="categories" id="category-box">
-                <option value="">전체</option>
+    <section class="btn-area">
+        <form th:action="@{/board/{boardType}(boardType=${boardType.toLowerCase()})}" method="get" role="search">
+            <select id="category-box"
+                    th:name="categories">
+                <option value="0">전체 유형</option>
                 <option th:each="category : ${categories}"
                         th:value="${category?.id}"
-                        th:utext="${category?.name}">
+                        th:utext="${category?.name}"
+                        th:selected="${selectedType['category'] == category?.id}">
                 </option>
             </select>
-            <label for="search-txt"></label>
-            <input type="text" id="search-txt" placeholder="제목+내용">
-            <button class="btn-info" th:onclick="|location.href='@{/board/new/{boardType}(boardType=${boardType.toLowerCase()})}'|">글쓰기</button>
-        </section>
-        <table class="table">
-            <thead>
+            <select th:if="${boardType.equals('FREE')}" th:name="grades">
+                <option value="0">전체 등급</option>
+                <option th:each="grade : ${grades}"
+                        th:value="${grade?.getId()}"
+                        th:utext="${grade?.getName()}"
+                        th:selected="${selectedType['grade'] == category?.id}"
+                ></option>
+            </select>
+            <label for="search"></label>
+            <div class="input-group">
+                <input type="text" id="search" name="keyword"  placeholder="검색어를 입력하세요." >
+                <button class="btn-search">
+                    <!--TODO 아이콘 변경-->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+                    </svg>
+                </button>
+            </div>
+        </form>
+        <button class="btn-dark float-right"
+                th:onclick="|location.href='@{/board/new/{boardType}(boardType=${boardType.toLowerCase()})}'|">
+            글쓰기
+        </button>
+    </section>
+        <table class="table table-hover table-border">
+            <thead class="table-dark">
                 <tr>
                     <th scope="col">번호</th>
                     <th scope="col">제목</th>
@@ -35,7 +58,10 @@
                     <th scope="col">추천수</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody class="table-group-divider">
+                <tr th:if="${articles.isEmpty()}" class="table-active">
+                    <td colspan='6' style="text-align: center">게시글 목록이 존재하지 않습니다.</td>
+                </tr>
                 <tr th:each="article, list:${articles}">
                     <td th:text="${list.index+1}"></td>
                     <td><a th:href="@{/board/(id=${article.id})}" th:text="${article.title}"></a></td>
