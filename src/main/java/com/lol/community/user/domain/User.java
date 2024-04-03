@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Getter
 @NoArgsConstructor
@@ -28,7 +30,12 @@ public class User extends BaseEntity {
     private String grade;
 
     @Builder
-    public User (Integer id) {
+    public User(Integer id, String name, String email,
+                 String password, String grade) {
         this.id = id;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.grade = grade;
     }
 }
