@@ -89,6 +89,8 @@ public class BoardServiceImpl implements BoardService {
         }
 
         // TODO 권한 조회
+        // TODO 1. 본인 권한 조회
+        // TODO 2. 선택한 권한이 본인 권한을 초과하는지 체크
         if(BoardType.FREE.name().equals(boardType)) {
 
         }
