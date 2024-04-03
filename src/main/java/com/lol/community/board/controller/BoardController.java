@@ -8,9 +8,9 @@ import com.lol.community.category.dto.response.CategoryResponse;
 import com.lol.community.category.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,23 +31,29 @@ public class BoardController {
     private final CategoryService categoryService;
     @GetMapping("/report")
     public String getArticlesOfReport(
+            @PageableDefault(
+                    size = 15,
+                    sort = "createdAt",
+                    direction = Sort.Direction.DESC
+            ) Pageable pageable,
             @ModelAttribute BoardSearchRequest request,
             Model model
     ) {
-        addBaseModelAttributes(BoardType.REPORT.name(), request, model);
+        addBaseModelAttributes(BoardType.REPORT.name(), request, model, pageable);
         return "board";
     }
 
     @GetMapping("/free")
     public String getArticlesOfFree(
+            @PageableDefault(
+                    size = 15,
+                    sort = "createdAt",
+                    direction = Sort.Direction.DESC
+            ) Pageable pageable,
             @ModelAttribute BoardSearchRequest request,
             Model model
     ) {
-        addBaseModelAttributes(BoardType.FREE.name(), request, model);
-
-        // TODO 카테고리1,2, 검색어 확인
-        // TODO 1. 본인 권한 조회
-        // TODO 2. 선택한 권한이 본인 권한을 초과하는지 체크
+        addBaseModelAttributes(BoardType.FREE.name(), request, model, pageable);
         //model.addAttribute("articles", boardService.findPageByBoardType(boardType, pageable, request));
         return "board";
     }
@@ -70,18 +76,12 @@ public class BoardController {
     public void addBaseModelAttributes(
             String boardType,
             BoardSearchRequest request,
-            Model model
+            Model model,
+            Pageable pageable
     ) {
-        Pageable pageable = PageRequest.of(
-                0,
-                15,
-                Sort.Direction.DESC,
-                "createdAt");
-
         if (BoardType.FREE.name().equals(boardType)) {
             model.addAttribute("grades", getGrades());
         }
-
         List<CategoryResponse> categoryResponses = categoryService.findCategoriesByBoardType(boardType);
         model.addAttribute("categories", categoryResponses);
         model.addAttribute("articles", boardService.findPageByBoardType(boardType, pageable, request));
