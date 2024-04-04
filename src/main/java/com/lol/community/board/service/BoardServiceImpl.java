@@ -4,25 +4,32 @@ import com.lol.community.board.domain.Board;
 import com.lol.community.board.domain.BoardType;
 import com.lol.community.board.dto.request.BoardRequest;
 import com.lol.community.board.dto.request.BoardSearchRequest;
+import com.lol.community.board.dto.response.BoardMainResponse;
 import com.lol.community.board.dto.response.BoardResponse;
 import com.lol.community.board.repository.BoardRepository;
+import com.lol.community.comment.service.CommentService;
 import com.lol.community.user.domain.User;
 import com.lol.community.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
 public class BoardServiceImpl implements BoardService {
     private final BoardRepository boardRepository;
     private final UserRepository userRepository;
+    private final CommentService commentService;
+    private final BoardReactionService boardReactionService;
 
     @Override
     public Board save(
@@ -98,4 +105,50 @@ public class BoardServiceImpl implements BoardService {
         return new PageImpl<>(responses, pageable, boardPage.getTotalElements());
     }
 
+
+    @Override
+    public Map<String, List<BoardMainResponse>> getModelOfTopByMain(
+            String boardType,
+            Integer limit
+    ) {
+        Map<String, List<BoardMainResponse>> mainModelAttributes = new HashMap<>();
+        mainModelAttributes.put("orderByViewCount", findTopByViewCount(boardType, limit));
+        mainModelAttributes.put("orderByCommentCount", findTopByCommentCount(boardType, limit));
+        mainModelAttributes.put("orderByLikeCount", findTopByLikeCount(boardType, limit));
+        return mainModelAttributes;
+    }
+
+
+    // 조회 수
+    @Override
+    public List<BoardMainResponse> findTopByViewCount(
+            String boardType,
+            Integer limit
+    ) {
+        return boardRepository.findAllByBoardTypeAndIsDeletedIsFalseOrderByViewCountDesc(
+                boardType,
+                PageRequest.of(0, limit)
+        )
+                .stream()
+                .map(BoardMainResponse::new)
+                .toList();
+    }
+
+    // 추천 수
+    @Override
+    public List<BoardMainResponse> findTopByLikeCount(
+            String boardType,
+            Integer limit
+    ) {
+        return boardReactionService.findAllReactionGroupByWithBoard(boardType, limit);
+    }
+
+    // 댓글 수
+    @Override
+    public List<BoardMainResponse> findTopByCommentCount(
+            String boardType,
+            Integer limit
+    ) {
+        return commentService.findAllCommentByGroupByWithBoard(boardType, limit);
+    }
 }
