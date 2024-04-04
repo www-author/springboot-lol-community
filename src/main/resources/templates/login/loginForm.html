@@ -3,29 +3,172 @@
 <head>
     <meta charset="UTF-8">
     <title>롤 정보 공유 커뮤니티</title>
-    <link rel="stylesheet" href="/css/loginForm.css">
+<style>
+    /* main section starts */
+    .main_container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 15vh;
+    }
+
+    .main_container img {
+        margin-bottom: 80px;
+        width: 500px;
+        height: 60px;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .field-error {
+        border-color: #10221b;
+        color: red;
+    }
+
+    p {
+        border-color: #fc83bb;
+        color: red;
+    }
+
+    .wrap1 {
+        position: relative;
+        margin-bottom: 10px;
+    }
+
+    .wrap1 img {
+        position: absolute;
+        top: 6;
+        left: 10;
+        width: 53px;
+        height: 53px;
+    }
+
+    .wrap1 .form-control {
+        width: 245px;
+        height: 50px;
+        padding: 0px;
+        padding: 0 0 0 60px;
+        font-size: 16px;
+    }
+
+    .wrap2 .form-control {
+        width: 245px;
+        height: 50px;
+        padding: 0 0 0 60px;
+        font-size: 16px;
+    }
+
+    .wrap2 {
+        position: relative;
+        margin-bottom: 10px;
+    }
+
+    .wrap2 img {
+        position: absolute;
+        top: 6;
+        left: 10;
+        width: 53px;
+        height: 53px;
+    }
+
+    .login_btn , .join_btn {
+        width: 145px;
+        height: 45px;
+        background-color: #424242;
+        color: white;
+        cursor: pointer;
+        font-weight: 700;
+        font-size: 16px;
+    }
+    a {
+        color: #424242;
+        margin-left: 140px;
+        margin-bottom: 35px;
+        font-size: 14px;
+        font-weight: 500;
+    }
+
+    .global {
+        margin-top: 0;
+    }
+
+    .wrap3 {
+        display:flex;
+        justify-content: space-between;
+        flex-direction: row;
+        margin-top:15px;
+    }
+    /* main section ends */
+
+    /* footer section starts */
+    footer {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        margin: 0px;
+        height: 80px;
+        background-color: #424242;
+    }
+
+    .footer_wrap {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        max-width: 1920px;
+    }
+
+    footer span {
+        color: white;
+        font-size: 17px;
+        font-weight: 600;
+        margin-left: 650px;
+        margin-right: 400px;
+    }
+
+    footer img {
+        width: 250px;
+        height: 50px;
+    }
+    /* footer section ends */
+</style>
+
 </head>
 <body>
-    <main class="main_container">
-        <img src="img/logo.png" th:src="@{/img/logo.png}" alt="logo">
-        <form action="" th:action th:object="${loginForm}" method="post">
-            <div class="wrap1">
-                <img src="img/user_img.png" th:src="@{/img/user_img.png}" alt="user_img">
-                <input type="text" placeholder="아이디" th:field="*{name}" class="form-control" th:errorclass="field-error">
-            </div>
-            <div class="wrap2">
-                <img src="img/lock_img.png" th:src="@{/img/lock_img.png}" alt="lock_img">
-                <input type="password" placeholder="비밀번호" th:field="*{password}" class="form-control" th:errorclass="field-error">
-            </div>
-            <a href="/users/add">Not a member? 회원가입</a>
 
-            <div th:if="${#fields.hasGlobalErrors()}">
-                <p th:each="err : ${#fields.globalErrors()}" th:text="${err}" class="global">전체 오류 메시지</p>
-            </div>
 
-            <button class="login_btn" type="submit">로그인</button>
-        </form>
-    </main>
-    <div th:replace="~{/layout/footer::footerFragment}"></div>
+<main class="main_container">
+    <img src="img/logo.png" th:src="@{/img/logo.png}" alt="logo">
+    <form action="" th:action th:object="${loginForm}" method="post">
+        <div class="wrap1">
+            <img src="img/user_img.png" th:src="@{/img/user_img.png}" alt="user_img">
+            <input type="text" placeholder="아이디" th:field="*{name}" class="form-control" th:errorclass="field-error">
+        </div>
+        <div class="wrap2">
+            <img src="img/lock_img.png" th:src="@{/img/lock_img.png}" alt="lock_img">
+            <input type="password" placeholder="비밀번호" th:field="*{password}" class="form-control" th:errorclass="field-error">
+        </div>
+        <a href="/users/add">Not a member? 회원가입</a>
+
+        <div th:if="${#fields.hasGlobalErrors()}">
+            <p th:each="err : ${#fields.globalErrors()}" th:text="${err}" class="global">전체 오류 메시지</p>
+        </div>
+
+        <button class="login_btn" type="submit">로그인</button>
+    </form>
+</main>
+<footer>
+    <div class="footer_wrap">
+        <span>copyright team15</span>
+        <img src="img/footer_img.png" th:src="@{/img/footer_img.png}" alt="">
+    </div>
+</footer>
 </body>
 </html>
