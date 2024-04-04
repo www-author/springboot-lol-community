@@ -23,7 +23,12 @@ public class UserServiceImpl {
 
         String encodedPassword = passwordEncoder.encode(user.getPassword());
 
-        user.toEncodedPassword(encodedPassword);
+        user = User.builder()
+                .name(user.getName())
+                .email(user.getEmail())
+                .password(encodedPassword)
+                .grade(user.getGrade())
+                .build();
 
         userRepository.save(user);
         return user.getId();
