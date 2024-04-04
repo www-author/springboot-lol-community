@@ -54,7 +54,6 @@ public class Board extends BaseEntity {
     @Column(name = "view_count", nullable = false)
     private Integer viewCount;
 
-    // TODO 반응 (좋아요, 싫어요) 변수는 엔티티 컬럼에서 제외하나 변수로 사용하도록 JPA 어노테이션 수정할 것!
     @Column(name = "like_count", nullable = false)
     private Integer likeCount;
 
@@ -98,9 +97,9 @@ public class Board extends BaseEntity {
                 .updatedAt(this.getUpdatedAt())
                 .build();
     }
-
-    // TODO 파일 변경 등 엔티티도 고려
-    // TODO !! User 정보에 따라 업데이트!!!
+    // TODO
+    // 1. 유저 정보도 엔티티에 저장할 것
+    // 2. 파일 변경은 다음 기회에 진행 예정
     public void update(BoardRequest request) {
         this.category = request.toEntityByUser(new User()).getCategory();
         this.title = request.getTitle();

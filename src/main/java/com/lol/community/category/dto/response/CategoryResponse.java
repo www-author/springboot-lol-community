@@ -1,4 +1,4 @@
-package com.lol.community.category.dto;
+package com.lol.community.category.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

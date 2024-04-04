@@ -4,7 +4,7 @@ import com.lol.community.board.domain.Board;
 import com.lol.community.board.dto.request.BoardRequest;
 import com.lol.community.board.dto.response.BoardBaseResponse;
 import com.lol.community.board.dto.response.BoardResponse;
-import com.lol.community.board.service.BoardServiceImpl;
+import com.lol.community.board.service.BoardService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -17,11 +17,11 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @Slf4j
-@RequestMapping("/api")
+@RequestMapping("/api/board")
 @Tag(name = "게시판 CRUD")
 @RequiredArgsConstructor
 public class BoardApiController {
-    private final BoardServiceImpl boardService;
+    private final BoardService boardService;
 
     // TODO 조회
     // TODO [공통] 스웨거 정의
