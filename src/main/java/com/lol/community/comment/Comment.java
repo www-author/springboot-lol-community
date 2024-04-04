@@ -30,7 +30,7 @@ public class Comment extends BaseEntity {
      )
      private Board board;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+     @ManyToOne(fetch = FetchType.LAZY)
      @JoinColumn(
              name = "user_id",
              referencedColumnName = "id",
@@ -51,10 +51,4 @@ public class Comment extends BaseEntity {
 
     @Column(name= "is_deleted", nullable = false)
     private Boolean isDeleted;
-
-    @Column(name = "like_count", nullable = false)
-    private Integer likeCount;
-
-    @Column(name = "dislike_count", nullable = false)
-    private Integer dislikeCount;
 }
