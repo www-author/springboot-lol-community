@@ -29,8 +29,15 @@ import static com.lol.community.user.domain.Grade.getGrades;
 public class BoardController {
     private final BoardService boardService;
     private final CategoryService categoryService;
+
+    @GetMapping("/main")
+    public String showMain(Model model) {
+        model.addAttribute("mainViewData", boardService.getModelOfTopByMain(BoardType.FREE.name(), 3));
+        return "index";
+    }
+
     @GetMapping("/report")
-    public String getArticlesOfReport(
+    public String showArticlesOfReport(
             @PageableDefault(
                     size = 15,
                     sort = "createdAt",
@@ -44,7 +51,7 @@ public class BoardController {
     }
 
     @GetMapping("/free")
-    public String getArticlesOfFree(
+    public String showArticlesOfFree(
             @PageableDefault(
                     size = 15,
                     sort = "createdAt",
@@ -54,7 +61,6 @@ public class BoardController {
             Model model
     ) {
         addBaseModelAttributes(BoardType.FREE.name(), request, model, pageable);
-        //model.addAttribute("articles", boardService.findPageByBoardType(boardType, pageable, request));
         return "board";
     }
 
