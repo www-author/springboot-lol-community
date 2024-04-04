@@ -38,4 +38,8 @@ public class User extends BaseEntity {
         this.password = password;
         this.grade = grade;
     }
+
+    public void toEncodedPassword(String encodedPassword) {
+        this.password = encodedPassword;
+    }
 }
