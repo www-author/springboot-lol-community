@@ -3,250 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <title>롤 정보 공유 커뮤니티</title>
-    <link rel="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
-    <style>
-        /* header section starts */
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: fixed;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 80px;
-            background-color: #424242;
-        }
-
-        .header_wrap {
-            width: 1920px;
-            max-width: 1920px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .header_wrap img {
-            display: box;
-            width: 150px;
-            height: 70px;
-            margin-left: 150px;
-        }
-
-        .header_wrap nav a {
-            color: white;
-            font-size: 16px;
-            font-weight: 700;
-            text-decoration: none;
-            margin-right: 15px;
-        }
-        /* header section ends */
-
-        /* main section starts */
-        .main_container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            margin-top: 13vh;
-            width: 100%;
-        }
-
-        .edit_form {
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            align-items: center;
-            border: 1.5px solid black;
-            box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.2);
-            width: 700px;
-            height: 450px;
-            margin-top: 35px;
-        }
-
-        .edit_form div {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .edit_form .wrap1 {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-left: 60px;
-        }
-
-        .wrap1 span {
-            margin-bottom: 25px;
-            margin-left: 15px;
-        }
-
-        .edit_form .wrap2 {
-            margin-right: 80px;
-        }
-
-        .field-error {
-            border-color: #10221b;
-            color: #10221b;
-        }
-
-        .edit_form .wrap2 label {
-            display: block;
-            margin-bottom: 5px;
-        }
-
-        .edit_form .wrap2 label:first-child {
-            margin-top: 10px;
-        }
-
-        .edit_form .wrap2 input {
-            width: 190px;
-            height: 25px;
-            margin-bottom: 5px;
-            padding-left: 10px;
-            font-size: 16px;
-        }
-
-        .wrap2 span {
-            font-size: 20px;
-            margin-left: 40px;
-        }
-
-        .wrap2 hr {
-            border-top: 2px solid black;
-            margin-top: 5px;
-            margin-bottom: 10px;
-            width: 150px;
-        }
-
-        p {
-            margin: 5px 0px; 0px;
-            color: red;
-            font-size: 14px;
-        }
-
-        .editBtn {
-            background-color: #424242;
-            color: white;
-            width: 60px;
-            height: 35px;
-            margin-top: 5px;
-            margin-left: 147px;
-        }
-
-        .wrap1 > img:first-child {
-            width: 150px;
-            height: 150px;
-            margin-left: 20px;
-        }
-
-        .wrap1 > img:last-child {
-            width: 235px;
-            height: 35px;
-            margin-left: 10px;
-        }
-
-        form {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .wrap1, .wrap2 {
-            position: relative;
-        }
-
-        .wrap1 i, .wrap2 i {
-            position: absolute;
-        }
-
-        /* main section ends */
-
-
-        /* footer section starts */
-        footer {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            margin: 0px;
-            height: 80px;
-            background-color: #424242;
-        }
-
-        .footer_wrap {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            max-width: 1920px;
-            width: 1920px;
-        }
-
-        .footer_wrap span {
-            margin-left: 650px;
-            margin-right: 400px;
-            color: white;
-            font-size: 17px;
-            font-weight: 600;
-        }
-
-        .footer_wrap img {
-            width: 250px;
-            height: 50px;
-        }
-        /* footer section ends */
-    </style>
+    <link rel="stylesheet" href="/css/editUserForm.css">
 </head>
 <body>
-<header>
-    <div class="header_wrap">
-        <img src="img/logo_top.png" th:src="@{/img/logo_top.png}" alt="logo">
-        <nav>
-            <a href="">홈</a>
-            <a href="">자유 게시판</a>
-            <a href="">Report</a>
-            <a href="">설정</a>
-            <a th:href="@{/users/edit}" th:text="${userEditForm.name} + '님'"></a>
-            <a href="">로그아웃</a>
-        </nav>
-    </div>
-</header>
-<main class="main_container">
-    <article class="edit_form">
-        <div class="wrap1">
-            <img src="img/user.png" th:src="@{/img/user.png}" alt="user" class="user_img">
-            <span th:text="${userEditForm.name} + '님'"></span>
-            <img src="img/logo.png" th:src="@{/img/logo.png}" alt="logo" class="rc_img">
-        </div>
-        <div class="wrap2">
-            <span>회원정보 변경</span>
-            <hr>
-            <form th:action th:object="${userEditForm}" method="post">
-                <label for="name">아이디</label>
-                <input id="name" type="text" th:field="*{name}" required>
-                <label for="email">이메일</label>
-                <input id="email" type="email" th:field="*{email}" required>
-                <label for="password">패스워드</label>
-                <input id="password" type="password" th:field="*{password}" required>
-                <div class="field-error" th:errors="*{password}"></div>
-                <label for="pwCheck">패스워드 확인</label>
-                <input id="pwCheck" type="password" th:field="*{pwCheck}" required>
-                <div class="field-error" th:errors="*{pwCheck}"></div>
-                <div th:if="${#fields.hasGlobalErrors()}">
-                    <p th:each="err : ${#fields.globalErrors()}" th:text="${err}">전체 오류 메시지</p>
-                </div>
-                <button type="submit" class="editBtn">수정</button>
-            </form>
-        </div>
-    </article>
-</main>
-<footer>
-    <div class="footer_wrap">
-        <span>copyright team15</span>
-        <img src="img/footer_img.png" th:src="@{/img/footer_img.png}" alt="">
-    </div>
-</footer>
+    <div th:replace="~{/layout/header::headerFragment}"></div>
+    <main class="main_container">
+        <article class="edit_form">
+            <div class="wrap1">
+                <img src="img/user.png" th:src="@{/img/user.png}" alt="user" class="user_img">
+                <span th:text="${userEditForm.name} + '님'"></span>
+                <img src="img/logo.png" th:src="@{/img/logo.png}" alt="logo" class="rc_img">
+            </div>
+            <div class="wrap2">
+                <span>회원정보 변경</span>
+                <hr>
+                <form th:action th:object="${userEditForm}" method="post">
+                    <label for="name">아이디</label>
+                    <input id="name" type="text" th:field="*{name}" required>
+                    <label for="email">이메일</label>
+                    <input id="email" type="email" th:field="*{email}" required>
+                    <label for="password">패스워드</label>
+                    <input id="password" type="password" th:field="*{password}" required>
+                    <div class="field-error" th:errors="*{password}"></div>
+                    <label for="pwCheck">패스워드 확인</label>
+                    <input id="pwCheck" type="password" th:field="*{pwCheck}" required>
+                    <div class="field-error" th:errors="*{pwCheck}"></div>
+                    <div th:if="${#fields.hasGlobalErrors()}">
+                        <p th:each="err : ${#fields.globalErrors()}" th:text="${err}">전체 오류 메시지</p>
+                    </div>
+                    <button type="submit" class="editBtn">수정</button>
+                </form>
+            </div>
+        </article>
+    </main>
+    <div th:replace="~{/layout/footer::footerFragment}"></div>
 </body>
 </html>
