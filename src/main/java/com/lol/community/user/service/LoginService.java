@@ -15,7 +15,6 @@ public class LoginService {
 
     public User login(String loginName, String password) {
         return userRepository.findByName(loginName)
-//                .filter(u -> u.getPassword().equals(password))
                 .filter(u -> passwordEncoder.matches(password, u.getPassword()))
                 .orElse(null);
     }
