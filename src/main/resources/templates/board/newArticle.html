@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{/layout/head::headFragment}">
+  <link th:href="@{/css/newArticle.css}" rel="stylesheet" />
+</head>
+<body>
+  <header th:replace="~{/layout/header::headerFragment}"></header>
+  <main>
+    <section id="intro-main" class="p-5 bg-light">
+      <h1 class="mb-3" th:text="${article.boardType.equals('REPORT') ? '신고게시판': '자유게시판'}"></h1>
+      <h4 class="mb-3"> 글 작성 화면입니다.</h4>
+    </section>
+    <section id="form-main" class="container">
+    <article class="col-lg-8">
+      <select th:name="categories" id="category-box">
+        <option value="">=== 카테고리를 선택해주세요. ===</option>
+        <option th:each="category : ${categories}"
+                th:value="${category?.id}"
+                th:utext="${category?.name}">
+        </option>
+      </select>
+      <header class="mb-4">
+        <input hidden id="boardType" th:value="${article.boardType}">
+        <input type="text" class="form-control" placeholder="제목" id="title" th:value="${article.title}">
+        <input type="hidden" id="userID" th:value="${article.userId}">
+      </header>
+      <section class="mb-5">
+        <textarea class="form-control h-25" rows="10" placeholder="내용" id="content" th:text="${article.content}"></textarea>
+      </section>
+      <button type="button" id="create-btn" class="btn btn-primary btn-sm" style="float: right" >등록</button>
+    </article>
+  </section>
+</main>
+  <footer th:replace="~{/layout/footer::footerFragment}"></footer>
+  <script type="text/javascript" src="/js/article.js"></script>
+</body>

@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 public class BoardResponse {
     private Integer id;
     private String boardType;
+    private  Integer userId;
     private String writer;
     private String title;
     private String content;
@@ -24,6 +25,7 @@ public class BoardResponse {
 
     public BoardResponse(Board board) {
         id = board.getId();
+        userId = board.getUser().getId();
         writer = board.getUser().getName();
         title = board.getTitle();
         viewCount = board.getViewCount();

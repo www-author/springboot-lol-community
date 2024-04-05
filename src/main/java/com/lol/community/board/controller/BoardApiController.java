@@ -23,21 +23,11 @@ import org.springframework.web.bind.annotation.*;
 public class BoardApiController {
     private final BoardService boardService;
 
-    // TODO 조회
-    // TODO [공통] 스웨거 정의
-    // TODO [공통] 게시판 파일을 추가한 CRUD
-
     @PostMapping("/article")
-    /*@PreAuthorize("isAuthenticated()") TODO : 인가된 사용자만*/
     @Operation(summary = "게시글 등록", description = "게시판의 게시글 생성0")
     @ApiResponse(responseCode = "201", description = "요청 성공", content = @Content(mediaType = "application/json"))
     public ResponseEntity<BoardResponse> addArticle(@RequestBody BoardRequest request) {
-        // TODO 현재 로그인된 사용자 이메일 정보 가져오기
-        /*Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        UserDetails userDetails = (UserDetails) principal;
-        String username = userDetails.getUsername();*/
-        // TODO 로그인 연동 전까지 임시 하드 코딩
-        Board board = boardService.save(request, "admin@gmail.com");
+        Board board = boardService.save(request);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(new BoardResponse(board));

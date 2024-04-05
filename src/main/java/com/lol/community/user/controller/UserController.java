@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,9 +31,9 @@ public class UserController {
 
     static {
         gradeCodes = new ArrayList<>();
-        gradeCodes.add(new GradeCode("하수", "하수(아이언, 브론즈, 실버)"));
-        gradeCodes.add(new GradeCode("중수", "중수(골드, 플래티넘, 에메랄드)"));
-        gradeCodes.add(new GradeCode("고수", "고수(다이아몬드, 마스터, 챌린저)"));
+        gradeCodes.add(new GradeCode("EXPERT", "고수(다이아몬드, 마스터, 챌린저)"));
+        gradeCodes.add(new GradeCode("INTERMEDIATE", "중수(골드, 플래티넘, 에메랄드)"));
+        gradeCodes.add(new GradeCode("BEGINNER", "하수(아이언, 브론즈, 실버)"));
     }
 
     @GetMapping("/add")

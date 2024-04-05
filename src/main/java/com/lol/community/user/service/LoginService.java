@@ -1,7 +1,6 @@
 package com.lol.community.user.service;
 
 import com.lol.community.user.domain.User;
-import com.lol.community.user.repository.UserRepository;
 import com.lol.community.user.repository.UserRepositoryImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,7 +14,6 @@ public class LoginService {
 
     public User login(String loginName, String password) {
         return userRepository.findByName(loginName)
-//                .filter(u -> u.getPassword().equals(password))
                 .filter(u -> passwordEncoder.matches(password, u.getPassword()))
                 .orElse(null);
     }

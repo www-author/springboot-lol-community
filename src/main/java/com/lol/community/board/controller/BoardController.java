@@ -6,6 +6,10 @@ import com.lol.community.board.dto.response.BoardResponse;
 import com.lol.community.board.service.BoardService;
 import com.lol.community.category.dto.response.CategoryResponse;
 import com.lol.community.category.service.CategoryService;
+import com.lol.community.user.domain.User;
+import com.lol.community.user.login.Login;
+import com.lol.community.user.login.SessionValue;
+import com.lol.community.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
@@ -28,10 +32,15 @@ import static com.lol.community.user.domain.Grade.getGrades;
 @RequestMapping("/board")
 public class BoardController {
     private final BoardService boardService;
+    private final UserService userService;
     private final CategoryService categoryService;
 
     @GetMapping("/main")
-    public String showMain(Model model) {
+    public String showMain(
+            @Login SessionValue sessionValue,
+            Model model
+    ) {
+        addModelAttributeOfUserInfo(sessionValue, model);
         model.addAttribute("mainViewData", boardService.getModelOfTopByMain(BoardType.FREE.name(), 3));
         return "index";
     }
@@ -44,10 +53,12 @@ public class BoardController {
                     direction = Sort.Direction.DESC
             ) Pageable pageable,
             @ModelAttribute BoardSearchRequest request,
+            @Login SessionValue sessionValue,
             Model model
     ) {
-        addBaseModelAttributes(BoardType.REPORT.name(), request, model, pageable);
-        return "board";
+        addModelAttributeOfUserInfo(sessionValue, model);
+        addModelAttributesOfBoardList(BoardType.REPORT.name(), request, model, pageable);
+        return "board/articles";
     }
 
     @GetMapping("/free")
@@ -58,28 +69,35 @@ public class BoardController {
                     direction = Sort.Direction.DESC
             ) Pageable pageable,
             @ModelAttribute BoardSearchRequest request,
+            @Login SessionValue sessionValue,
             Model model
     ) {
-        addBaseModelAttributes(BoardType.FREE.name(), request, model, pageable);
-        return "board";
+        addModelAttributeOfUserInfo(sessionValue, model);
+        addModelAttributesOfBoardList(BoardType.FREE.name(), request, model, pageable);
+        return "board/articles";
     }
 
     @GetMapping("/new/{boardType}")
     public String showArticle(
             @PathVariable("boardType") String type,
+            @Login SessionValue sessionValue,
             Model model
     ) {
+        User user = userService.findUserById(sessionValue.getUserId());
         String boardType = BoardType.valueOf(type.toUpperCase()).name();
         List<CategoryResponse> categoryResponses = categoryService.findCategoriesByBoardType(boardType);
         BoardResponse boardResponse = BoardResponse.builder()
                 .boardType(boardType)
+                .userId(user.getId())
                 .build();
+
+        model.addAttribute("userName", user.getName());
         model.addAttribute("categories", categoryResponses);
         model.addAttribute("article", boardResponse);
-        return "newArticle";
+        return "board/newArticle";
     }
 
-    public void addBaseModelAttributes(
+    public void addModelAttributesOfBoardList(
             String boardType,
             BoardSearchRequest request,
             Model model,
@@ -93,5 +111,13 @@ public class BoardController {
         model.addAttribute("articles", boardService.findPageByBoardType(boardType, pageable, request));
         model.addAttribute("boardType", boardType);
         model.addAttribute("selectedType", request.getSelectedCategories());
+    }
+
+    public void addModelAttributeOfUserInfo(
+            SessionValue sessionValue,
+            Model model
+    ) {
+        User user = userService.findUserById(sessionValue.getUserId());
+        model.addAttribute("userName", user.getName());
     }
 }
