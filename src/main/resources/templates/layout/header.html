@@ -7,7 +7,9 @@
             <a href="">자유 게시판</a>
             <a href="">Report</a>
             <a href="">설정</a>
-            <a th:href="@{/users/edit}" th:text="${userEditForm.name} + '님'"></a>
+            <!--TODO BUG-> 추후 활성화 예정 -->
+            <!--<a th:href="@{/users/edit}" th:text="${userEditForm.name} + '님'"></a>-->
+            <a th:text="${userName} + '님'"></a>
             <a href="">로그아웃</a>
         </nav>
     </header>

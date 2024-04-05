@@ -31,7 +31,8 @@ if (createButton) {
                 boardType: boardType,
                 categoryId: selectedCategoryId,
                 title: title,
-                content: content
+                content: content,
+                userId : document.getElementById('userID').value
             }),
         })
             .catch(e => console.error(e))
