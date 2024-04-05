@@ -12,10 +12,6 @@ public class UserService {
 
     public User findUserById(Integer id) {
         return userRepository.findById(id)
-                .orElseThrow(IllegalArgumentException::new);
-    }
-
-    public User findByEmail(String email) {
-        return userRepository.findByEmail(email);
+                .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 존재하지 않습니다. (id : " + id + ")"));
     }
 }

@@ -18,7 +18,7 @@ public interface BoardService {
             BoardSearchRequest request
     );
 
-    Board save(BoardRequest request, String email);
+    Board save(BoardRequest request);
 
     Board findById(Integer id);
 

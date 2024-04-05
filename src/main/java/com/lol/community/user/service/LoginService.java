@@ -1,7 +1,6 @@
 package com.lol.community.user.service;
 
 import com.lol.community.user.domain.User;
-import com.lol.community.user.repository.UserRepository;
 import com.lol.community.user.repository.UserRepositoryImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;

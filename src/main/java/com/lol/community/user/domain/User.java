@@ -2,15 +2,16 @@ package com.lol.community.user.domain;
 
 import com.lol.community.global.BaseEntity;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
 @Entity
 @Getter
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 public class User extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,16 +29,6 @@ public class User extends BaseEntity {
 
     @Column(nullable = false, length = 10)
     private String grade;
-
-    @Builder
-    public User(Integer id, String name, String email,
-                 String password, String grade) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-        this.password = password;
-        this.grade = grade;
-    }
 
     public void toEncodedPassword(String encodedPassword) {
         this.password = encodedPassword;

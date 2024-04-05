@@ -9,7 +9,7 @@ import com.lol.community.board.dto.response.BoardResponse;
 import com.lol.community.board.repository.BoardRepository;
 import com.lol.community.comment.service.CommentService;
 import com.lol.community.user.domain.User;
-import com.lol.community.user.repository.UserRepository;
+import com.lol.community.user.service.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -27,16 +27,15 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class BoardServiceImpl implements BoardService {
     private final BoardRepository boardRepository;
-    private final UserRepository userRepository;
+    private final UserService userService;
     private final CommentService commentService;
     private final BoardReactionService boardReactionService;
 
     @Override
     public Board save(
-            BoardRequest request,
-            String email
+            BoardRequest request
     ) {
-        User user = userRepository.findByEmail(email);
+        User user = userService.findUserById(request.getUserId());
         Board board = request.toEntityByUser(user);
         return boardRepository.save(board);
     }
