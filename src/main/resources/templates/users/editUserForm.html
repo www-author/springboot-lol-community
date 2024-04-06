@@ -3,16 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title>롤 정보 공유 커뮤니티</title>
-    <link rel="stylesheet" href="/css/editUserForm.css">
+    <link rel="stylesheet" th:href="@{/css/editUserForm.css}">
 </head>
 <body>
-    <div th:replace="~{/layout/header::headerFragment}"></div>
-    <main class="main_container">
-        <article class="edit_form">
+<div th:replace="~{/layout/header::headerFragment}"></div>
+<main class="main_container">
+    <div>
+        <article>
             <div class="wrap1">
-                <img src="img/user.png" th:src="@{/img/user.png}" alt="user" class="user_img">
-                <span th:text="${userEditForm.name} + '님'"></span>
-                <img src="img/logo.png" th:src="@{/img/logo.png}" alt="logo" class="rc_img">
+                <img th:src="@{/img/user.png}">
+                <span th:text="${userEditForm.name} + '님'">user님</span>
+                <img th:src="@{/img/logo.png}">
             </div>
             <div class="wrap2">
                 <span>회원정보 변경</span>
@@ -24,10 +25,9 @@
                     <input id="email" type="email" th:field="*{email}" required>
                     <label for="password">패스워드</label>
                     <input id="password" type="password" th:field="*{password}" required>
-                    <div class="field-error" th:errors="*{password}"></div>
+                    <div class="field-error"></div>
                     <label for="pwCheck">패스워드 확인</label>
                     <input id="pwCheck" type="password" th:field="*{pwCheck}" required>
-                    <div class="field-error" th:errors="*{pwCheck}"></div>
                     <div th:if="${#fields.hasGlobalErrors()}">
                         <p th:each="err : ${#fields.globalErrors()}" th:text="${err}">전체 오류 메시지</p>
                     </div>
@@ -35,7 +35,8 @@
                 </form>
             </div>
         </article>
-    </main>
-    <div th:replace="~{/layout/footer::footerFragment}"></div>
+    </div>
+</main>
+<div th:replace="~{/layout/footer::footerFragment}"></div>
 </body>
 </html>

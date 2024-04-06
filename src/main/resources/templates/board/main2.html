@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>롤 정보 공유 커뮤니티</title>
+    <link rel="stylesheet" th:href="@{/css/main2.css}">
+</head>
+<body>
+    <div th:replace="~{/layout/header::headerFragment}"></div>
+    <main class="main_container">
+        <section class="img_section">
+
+        </section>
+        <section class="board_wrap">
+            <article class="view_top">
+                <div>
+                    <h1>조회수 TOP 3</h1>
+                    <a><img th:src="@{/img/plus.png}"></a>
+                </div>
+                <div>
+                    <h2>제목</h2>
+                    <span>작성자</span>
+                </div>
+                <div>
+                    <h2>제목</h2>
+                    <span>작성자</span>
+                </div>
+                <div>
+                    <h2>제목</h2>
+                    <span>작성자</span>
+                </div>
+            </article>
+            <article class="comment_top">
+                <div>
+                    <h1>조회수 TOP 3</h1>
+                    <a><img th:src="@{/img/plus.png}"></a>
+                </div>
+                <div>
+                    <h2>제목</h2>
+                    <span>작성자</span>
+                </div>
+                <div>
+                    <h2>제목</h2>
+                    <span>작성자</span>
+                </div>
+                <div>
+                    <h2>제목</h2>
+                    <span>작성자</span>
+                </div>
+            </article>
+            <article class="likes_top">
+                <div>
+                    <h1>조회수 TOP 3</h1>
+                    <a><img th:src="@{/img/plus.png}"></a>
+                </div>
+                <div>
+                    <h2>제목</h2>
+                    <span>작성자</span>
+                </div>
+                <div>
+                    <h2>제목</h2>
+                    <span>작성자</span>
+                </div>
+                <div>
+                    <h2>제목</h2>
+                    <span>작성자</span>
+                </div>
+            </article>
+        </section>
+    </main>
+    <div th:replace="~{/layout/footer::footerFragment}"></div>
+</body>
+</html>

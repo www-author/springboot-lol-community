@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>롤 정보 공유 커뮤니티</title>
+    <link rel="stylesheet" th:href="@{/css/article2.css}">
+</head>
+<body>
+    <div th:replace="~{/layout/header::headerFragment}"></div>
+    <main class="main_container">
+        <div class="main_wrap">
+            <h1>게시판 기본</h1>
+            <div class="search_container">
+                <select>
+                    <option value="">카테고리</option>
+                </select>
+                <div class="div_wrap1">
+                    <input type="text" placeholder="제목+내용">
+                    <a><img th:src="@{/img/search.png}"></a>
+                </div>
+                <div class="div_wrap2">
+                    <img th:src="@{/img/pencil.png}">
+                    <button class="btn_write" onclick='link()'>글쓰기</button>
+                </div>
+            </div>
+            <table>
+                <thead>
+                <tr>
+                    <th>번호</th>
+                    <th>제목</th>
+                    <th>작성자</th>
+                    <th>작성일</th>
+                    <th>조회수</th>
+                    <th>추천수</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>3</td>
+                    <td><a th:href="@{/board/home}">제목3</a></td>
+                    <td>작성자3</td>
+                    <td>2024-03-24</td>
+                    <td>5</td>
+                    <td>2</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td><a th:href="@{/board/home}">제목2</a></td>
+                    <td>작성자2</td>
+                    <td>2024-03-24</td>
+                    <td>17</td>
+                    <td>2</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td><a th:href="@{/board/home}">제목1</a></td>
+                    <td>작성자1</td>
+                    <td>2024-03-24</td>
+                    <td>6</td>
+                    <td>5</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <a href="#"><img th:src="@{/img/arrow.png}" class="arrow_img"></a>
+    </main>
+    <div th:replace="~{/layout/footer::footerFragment}"></div>
+    <script>
+        function link() {
+            var url = "/board/main";
+            window.location.href = url;
+        }
+    </script>
+</body>
+</html>

@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-    <header th:fragment="headerFragment">
-        <img src="img/logo_top.png" th:src="@{/img/logo_top.png}" alt="logo">
+<header th:fragment="headerFragment">
+    <div>
+        <img th:src="@{/img/logo_top.png}">
         <nav>
-            <a href="">홈</a>
+            <a th:href="@{/board/main}">홈</a>
             <a href="">자유 게시판</a>
             <a href="">Report</a>
             <a href="">설정</a>
-            <!--TODO BUG-> 추후 활성화 예정 -->
-            <!--<a th:href="@{/users/edit}" th:text="${userEditForm.name} + '님'"></a>-->
-            <a th:text="${userName} + '님'"></a>
-            <a href="">로그아웃</a>
+            <a th:text="${userName} + '님'">user님</a>
+            <a th:href="@{/logout}">로그아웃</a>
         </nav>
-    </header>
+    </div>
+</header>
 </html>

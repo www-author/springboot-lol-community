@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>롤 정보 공유 커뮤니티</title>
+    <link rel="stylesheet" th:href="@{/css/newArticle2.css}">
+</head>
+<body>
+    <div th:replace="~{/layout/header::headerFragment}"></div>
+    <main class="main_container">
+        <div class="main_wrap">
+            <div class="category_box">
+                <select>
+                    <option value="">카테고리</option>
+                </select>
+                <select>
+                    <option value="">티어</option>
+                </select>
+            </div>
+            <input type="text" placeholder="제목" class="title">
+            <input type="text" class="content">
+            <button class="btn" onclick="link()">등록</button>
+        </div>
+    </main>
+    <div th:replace="~{/layout/footer::footerFragment}"></div>
+    <script>
+        function link() {
+            var url = "/board/main";
+            window.location.href = url;
+        }
+    </script>
+</body>
+</html>
