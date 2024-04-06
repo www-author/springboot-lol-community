@@ -7,8 +7,11 @@ import com.lol.community.global.BaseEntity;
 import com.lol.community.user.domain.User;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.SQLDelete;
 
+@DynamicInsert
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,7 +22,7 @@ public class Board extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", updatable = false)
-    private Integer id;
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
@@ -48,21 +51,21 @@ public class Board extends BaseEntity {
     @Column(name = "content", nullable = false, columnDefinition = "text")
     private String content;
 
+    @ColumnDefault("0")
+    @Column(name = "like_count", nullable = false)
+    private Long likeCount;
+
+    @ColumnDefault("false")
     @Column(name = "is_deleted", nullable = false)
     private Boolean isDeleted;
 
+    @ColumnDefault("0")
     @Column(name = "view_count", nullable = false)
     private Integer viewCount;
 
-    @Column(name = "like_count", nullable = false)
-    private Integer likeCount;
-
-    @Column(name = "dislike_count", nullable = false)
-    private Integer dislikeCount;
-
     @Builder
     public Board(
-            Integer id,
+            Long id,
             User user,
             Category category,
             String boardType,
@@ -77,8 +80,6 @@ public class Board extends BaseEntity {
         this.content = content;
         this.isDeleted = Boolean.FALSE;
         this.viewCount = 0;
-        this.likeCount = 0;
-        this.dislikeCount = 0;
     }
 
     public BoardResponse toResponse() {
@@ -90,8 +91,6 @@ public class Board extends BaseEntity {
                 .title(this.title)
                 .content(this.content)
                 .viewCount(this.viewCount)
-                .likeCount(this.likeCount)
-                .dislikeCount(this.dislikeCount)
                 .isDeleted(this.isDeleted)
                 .createdAt(this.getCreatedAt())
                 .updatedAt(this.getUpdatedAt())
@@ -103,5 +102,9 @@ public class Board extends BaseEntity {
         this.category = request.toEntity().getCategory();
         this.title = request.getTitle();
         this.content = request.getContent();
+    }
+
+    public void updateLikeCount(Integer likeCount) {
+        this.likeCount += likeCount;
     }
 }

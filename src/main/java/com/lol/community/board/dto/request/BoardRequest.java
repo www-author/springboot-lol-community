@@ -12,8 +12,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BoardRequest {
-    private Integer userId;
-    private Integer categoryId;
+    private Long userId;
+    private Long categoryId;
     private BoardType boardType;
     private String title;
     private String content;

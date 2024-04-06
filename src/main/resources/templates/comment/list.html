@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script src="http://code.jquery.com/jquery-latest.js"></script>
+</head>
+<body>
+<th:block id="comment-area">
+  <h5>댓글</h5>
+  <button id="btn-refresh">새로고침</button>
+<!--  댓글 입력-->
+  <th:block>
+    <form id="form-comment">
+      <!--  유저 코드 머지 후 userid 세션에서 받아오도록 수정해야 함    -->
+      <input type="hidden" id="input-user-id" th:value="1">
+      <input type="hidden" id="input-board-id" th:value="${resultMap.boardId}">
+      <input type="hidden" id="input-comment-page" th:value="${resultMap.page}">
+      <input id="input-comment" rows="50" type="text" placeholder="댓글을 입력하세요.">
+      <button id="btn-comment-submit" type="submit">작성</button>
+    </form>
+  </th:block>
+
+  <th:block id="all-comment">
+    <!--  베스트 댓글-->
+    <ul th:if="${resultMap.page == 1}" id="best-comment">
+      <li th:each="best : ${bestCommentList}">
+        <div>
+          <p class="comment-writer" th:text="${best.userName}"></p>
+          <p class="comment-create" th:text="${best.create_at}"></p>
+          <button class="btn-like" th:attr="data-comment-id=${best.id}">
+            <span>[[${best.likeCount}]]</span>
+            좋아요
+          </button>
+        </div>
+        <textarea th:text="${best.content}" readonly></textarea>
+      </li>
+    </ul>
+  <!--  댓글 목록-->
+    <ul id="comment-list">
+      <li class="list-item" th:each="comment : ${commentResult.dtoList}" th:attr="data-depth=${comment.co_depth}, data-order=${comment.co_order}">
+        <input class="comment-id" type="hidden" name="comment-id" th:value="${comment.id}">
+        <div>
+          <p class="comment-writer" th:text="${comment.userName}"></p>
+          <p class="comment-create" th:text="${comment.create_at}"></p>
+          <div>
+            <button class="btn-modify">수정</button>
+            <button class="btn-delete">삭제</button>
+          </div>
+          <button class="btn-reply-toggle">답글</button>
+          <button class="btn-like" th:attr="data-comment-id=${comment.id}">
+            <span th:class="'count-like-' + ${comment.id}">[[${comment.likeCount}]]</span>
+            <img class="icon-like" src="/icon/thumb-up.png">
+          </button>
+          <textarea th:text="${comment.content}"></textarea>
+        </div>
+      </li>
+    </ul>
+
+  <!--  댓글 페이지 목록-->
+    <ul id="comment-page-list">
+      <li th:if="${commentResult.prev}">
+        <a class="page-list-item" id="page-prev" th:href="@{/comment/list(board_id=${resultMap.boardId}, page=${commentResult.start - 1})}"
+           tabindex="-1">Previous</a>
+      </li>
+
+      <li th:each="page : ${commentResult.pageList}">
+        <a class="page-number page-list-item" th:href="@{/comment/list(board_id=${resultMap.boardId}, page=${page})}" th:text="${page}"></a>
+      </li>
+
+      <li th:if="${commentResult.next}">
+        <a class="page-list-item" id="page-next" th:href="@{/comment/list(board_id=${resultMap.boardId}, page=${commentResult.end + 1})}">Next</a>
+      </li>
+    </ul>
+
+  </th:block>
+
+<!--  대댓글 입력 폼-->
+  <div id="form-reply" style="display: none">
+    <form>
+      <input id="input-reply" type="text" name="reply-content" placeholder="답글을 입력하세요.">
+      <button id="btn-reply-submit" type="button">등록</button>
+    </form>
+  </div>
+
+<!--  수정 입력 폼-->
+  <div id="form-modify" style="display: none">
+    <form>
+      <input id="input-modify" type="text" name="modify-content">
+      <button id="btn-modify-submit" type="button">등록</button>
+    </form>
+  </div>
+
+  <script th:inline="javascript">
+
+    var user_id = $('#input-user-id').val();
+    var board_id = $('#input-board-id').val();
+    var comment_page = $('#input-comment-page').val();
+
+    $(document).ready(function(){
+
+      // 댓글 등록 버튼
+      $('#form-comment').submit(function(event) {
+        event.preventDefault(); // 폼 기본 동작 방지
+        var content = $('#input-comment').val(); // 입력된 댓글 텍스트 가져오기
+        console.log(content, board_id, user_id);
+
+        $.ajax({
+          url: '/comment/write',
+          method: 'POST',
+          contentType : 'application/json; charset=utf-8',
+          data: JSON.stringify({
+            content: content,
+            board_id: board_id,
+            user_id: user_id
+          }),
+          success: function() {
+            // 댓글 등록 성공 시, 목록 다시 불러오기
+            console.log("댓글 등록 성공")
+            $('#comment-text').val(''); // 입력 필드 비우기
+          }
+        }).done(loadComment("refresh"));
+      });
+
+      //토글 입력폼 나타내기 버튼
+      function displayReplyForm (){
+          $('#form-reply').appendTo($(this).parent().parent()).toggle();
+      }
+
+      $(document).on('click', '.btn-reply-toggle', displayReplyForm);
+
+      //대댓글 등록 버튼
+      function writeReply(){
+
+        var parent_id = $(this).closest('.list-item').children('.comment-id').val();
+        var content = $(this).prev().val();
+
+        console.log(parent_id + " / " + content);
+
+        $.ajax({
+          url : '/comment/write',
+          method: 'post',
+          contentType: 'application/json; charset=utf-8',
+          data: JSON.stringify({
+            parent_id: parent_id,
+            content: content,
+            board_id: board_id,
+            user_id: user_id
+          }),
+          success: function(){
+            console.log("대댓글 등록 성공")
+            $("#form-reply").css("display","none").appendTo("body");
+            $("#input-reply").val("");
+          }
+        }).done(loadComment("refresh"));
+      }
+
+      $(document).on('click', '#btn-reply-submit', writeReply);
+
+      //수정 버튼
+      function displayModifyForm (){
+        var originalContent = $(this).parent().parent().find('textarea').val();
+        console.log(originalContent);
+        $('#input-modify').val(originalContent);
+        $('#form-modify').appendTo($(this).parent().parent()).toggle();
+      }
+      $(document).on('click', '.btn-modify', displayModifyForm)
+
+      function modifyComment(){
+
+        var comment_id = $(this).closest('.list-item').children('.comment-id').val();
+        var content = $(this).prev().val();
+
+        console.log(comment_id + " / " + content);
+
+        $.ajax({
+          url : '/comment/update',
+          method: 'put',
+          contentType: 'application/json; charset=utf-8',
+          data: JSON.stringify({
+            id: comment_id,
+            content: content,
+            user_id: user_id
+          }),
+          success: function(){
+            console.log("댓글 수정 성공")
+            $("#form-modify").css("display","none").appendTo("body");
+            $("#input-modify").val("");
+          }
+        }).done(loadComment("refresh"));
+      }
+
+      $(document).on('click', '#btn-modify-submit', modifyComment);
+
+
+      // 삭제 버튼
+      function deleteComment(){
+        var getComment_id = $(this).parent().parent().parent().find('.comment-id').val();
+
+        console.log(getComment_id);
+
+        $.ajax({
+          url: '/comment/delete',
+          method: 'delete',
+          data: {
+            comment_id : getComment_id
+          },
+          success: function (){
+            console.log("삭제 성공")
+            loadComment("refresh");
+          }
+        });
+      }
+
+      $(document).on('click', '.btn-delete', deleteComment);
+
+
+      //새로고침
+      function loadComment(request) {
+        var loadRequestInfo = {
+          board_id : board_id,
+          page : comment_page,
+          request : request
+        };
+
+        console.log(loadRequestInfo)
+
+        $.ajax({
+          url: '/comment/list',
+          method: 'get',
+          data: loadRequestInfo,
+          success: function () {
+            console.log("새로고침 성공");
+          }
+        })
+        .done(function (fragment){
+          $('#all-comment').replaceWith(fragment);
+        });
+      }
+
+      // 댓글 새로고침 버튼 클릭 이벤트
+      $('#btn-refresh').click(function() {
+        loadComment("refresh");
+      });
+
+      //좋아요 버튼 (아이콘 모양 변하는거 추가해야함, 세션에서 유저 아이디도 받아야 함)
+      function modifyLike (){
+        var comment_id = $(this).data('comment-id');
+
+        var likeRequest ={
+          comment_id : comment_id,
+          user_id : 1
+        }
+
+        $.ajax({
+          url: '/reaction/comment/like',
+          method: 'post',
+          data: JSON.stringify(likeRequest),
+          contentType : 'application/json',
+          dataType : "json",
+          success: function(data){
+            console.log("좋아요 성공" + data);
+            $(this).children('.icon-like')
+            $(".count-like-"+comment_id).text(data);
+          }
+        });
+      }
+
+      // .on으로 이후 추가되는 요소에도 이벤트 연결해줌
+      $(document).on('click', '.btn-like', modifyLike);
+
+
+    })
+  </script>
+</th:block>
+</body>
+</html>

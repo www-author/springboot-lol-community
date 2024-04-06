@@ -39,7 +39,7 @@ public class BoardApiController {
     @PutMapping("/{id}")
     @Operation(summary = "게시글 수정", description = "게시글 ID 기반의 특정 게시글 수정")
     public ResponseEntity<BoardResponse> updateArticle(
-            @PathVariable("id") Integer id,
+            @PathVariable("id") Long id,
             @RequestBody BoardRequest request
     ) {
         Board board = boardService.modify(id, request);

@@ -16,7 +16,7 @@ public class BoardService {
         return boardRepository.save(request.toEntity());
     }
 
-    public Board findById(Integer id) {
+    public Board findById(Long id) {
         return boardRepository
                 .findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 존재하지 않습니다. (id : " + id + ")"));
@@ -24,7 +24,7 @@ public class BoardService {
 
     @Transactional
     public Board modify(
-            Integer id,
+            Long id,
             BoardRequest request
     ) {
         Board board = findById(id);
