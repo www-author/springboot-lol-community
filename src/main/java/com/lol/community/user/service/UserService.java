@@ -5,6 +5,8 @@ import com.lol.community.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import static com.lol.community.global.exception.ExceptionType.NOT_EXIST_USER;
+
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -12,6 +14,6 @@ public class UserService {
 
     public User findUserById(Integer id) {
         return userRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 존재하지 않습니다. (id : " + id + ")"));
+                .orElseThrow(() -> new IllegalArgumentException(NOT_EXIST_USER.getMessage() + "(id : " + id + ")"));
     }
 }

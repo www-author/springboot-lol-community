@@ -12,6 +12,7 @@ import com.lol.community.user.login.SessionValue;
 import com.lol.community.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -57,7 +58,13 @@ public class BoardController {
             Model model
     ) {
         addModelAttributeOfUserInfo(sessionValue, model);
-        addModelAttributesOfBoardList(BoardType.REPORT.name(), request, model, pageable);
+        addModelAttributesOfBoardList(
+                BoardType.REPORT.name(),
+                request,
+                sessionValue.getUserId(),
+                model,
+                pageable
+        );
         return "board/articles";
     }
 
@@ -73,7 +80,7 @@ public class BoardController {
             Model model
     ) {
         addModelAttributeOfUserInfo(sessionValue, model);
-        addModelAttributesOfBoardList(BoardType.FREE.name(), request, model, pageable);
+        addModelAttributesOfBoardList(BoardType.FREE.name(), request, sessionValue.getUserId(), model, pageable);
         return "board/articles";
     }
 
@@ -100,6 +107,7 @@ public class BoardController {
     public void addModelAttributesOfBoardList(
             String boardType,
             BoardSearchRequest request,
+            Integer userId,
             Model model,
             Pageable pageable
     ) {
@@ -108,7 +116,9 @@ public class BoardController {
         }
         List<CategoryResponse> categoryResponses = categoryService.findCategoriesByBoardType(boardType);
         model.addAttribute("categories", categoryResponses);
-        model.addAttribute("articles", boardService.findPageByBoardType(boardType, pageable, request));
+
+        Page<BoardResponse> boardResponses = boardService.findPageByBoardType(boardType, pageable, request, userId);
+        model.addAttribute("articles", boardResponses);
         model.addAttribute("boardType", boardType);
         model.addAttribute("selectedType", request.getSelectedCategories());
     }

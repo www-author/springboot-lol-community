@@ -22,6 +22,8 @@ public class BoardResponse {
     private Integer viewCount;
     private Integer likeCount;
     private LocalDateTime createdAt;
+    private String message;
+
 
     public BoardResponse(Board board) {
         id = board.getId();

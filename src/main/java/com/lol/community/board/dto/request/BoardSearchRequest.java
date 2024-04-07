@@ -24,8 +24,8 @@ public class BoardSearchRequest {
         return categories == 0;
     }
 
-    public boolean isEmptyGrade() {
-        return grades == 0;
+    public boolean isExistGrade() {
+        return grades != 0;
     }
 
     public boolean isEmptyKeyword() {

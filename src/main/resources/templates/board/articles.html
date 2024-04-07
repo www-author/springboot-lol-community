@@ -20,7 +20,7 @@
                             </option>
                         </select>
                         <select th:if="${boardType.equals('FREE')}" th:name="grades">
-                            <option value="0">전체 등급</option>
+                            <option value="0">== 본인 등급 이하를 선택하세요.==</option>
                             <option th:each="grade : ${grades}"
                                     th:value="${grade?.getId()}"
                                     th:utext="${grade?.getName()}"
@@ -60,7 +60,7 @@
                     </tr>
                     <tr th:each="article, list:${articles}">
                         <td th:text="${list.index+1}"></td>
-                        <td style="text-align: left"><a th:href="@{/board/(id=${article.id})}" th:text="${article.title}"></a></td>
+                        <td style="text-align: left"><a th:href="@{/board/{id}(id=${article.id})}" th:text="${article.title}"></a></td>
                         <td th:text="${article.writer}"></td>
                         <!--TODO 당일 여부 조건에 따른 포맷팅 변환 처리-->
                         <td th:text="${#temporals.format(article.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
