@@ -11,13 +11,14 @@
 + 신고[욕설, 버그, ..] 목록 별 게시글 조회 기능
 
 ## 2. 기술 스택
-[Back-end]
+**[Back-end]**
 + 스프링/스프링 부트
 + 타임리프
 + 스프링 데이터 JPA
-[Database]
+
+**[Database]**
 + MySQL
 
-https://github.com/HoJun0415/springboot-lol-community/blob/main/%EC%8A%A4%ED%83%9D.PNG
+(https://github.com/HoJun0415/springboot-lol-community/blob/main/%EC%8A%A4%ED%83%9D.PNG)
 
 
