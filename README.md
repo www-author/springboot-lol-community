@@ -40,6 +40,6 @@
 
 ## 5. 화면 구성
 <div style="display: flex">
-  <img src='https://github.com/HoJun0415/springboot-lol-community/blob/main/%EB%A1%9C%EA%B7%B8%EC%9D%B8%20%ED%99%94%EB%A9%B4.png'>
-  <img src='https://github.com/HoJun0415/springboot-lol-community/blob/main/%ED%9A%8C%EC%9B%90%EA%B0%80%EC%9E%85%20%ED%99%94%EB%A9%B4.png'>
+  <img src='https://github.com/HoJun0415/springboot-lol-community/blob/main/%EB%A1%9C%EA%B7%B8%EC%9D%B8%20%ED%99%94%EB%A9%B4.png' style="width: 100px; height: 100px;">
+  <img src='https://github.com/HoJun0415/springboot-lol-community/blob/main/%ED%9A%8C%EC%9B%90%EA%B0%80%EC%9E%85%20%ED%99%94%EB%A9%B4.png'style="width: 100px; height: 100px;">
 </div>
