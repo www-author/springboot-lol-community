@@ -11,6 +11,11 @@
 + 신고[욕설, 버그, ..] 목록 별 게시글 조회 기능
 
 ## 2. 기술 스택
+**[Front-end]**
++ HTML
++ CSS
++ Javascript
+
 **[Back-end]**
 + 스프링/스프링 부트
 + 타임리프
@@ -19,6 +24,6 @@
 **[Database]**
 + MySQL
 
-(https://github.com/HoJun0415/springboot-lol-community/blob/main/%EC%8A%A4%ED%83%9D.PNG)
+<img src='https://github.com/HoJun0415/springboot-lol-community/blob/main/%EC%8A%A4%ED%83%9D.PNG'>
 
 
