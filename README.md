@@ -31,7 +31,7 @@
 - [x] 도메인형
 - [ ] 계층형
 
-<img src='https://github.com/HoJun0415/springboot-lol-community/blob/main/%ED%8C%A8%ED%82%A4%EC%A7%80%EA%B5%AC%EC%A1%B0.PNG'>
+<img src='https://github.com/HoJun0415/springboot-lol-community/blob/main/%ED%8C%A8%ED%82%A4%EC%A7%80%EA%B5%AC%EC%A1%B0.PNG' style="width: 250px; height: 300px;">
 
 ## 4. 데이터베이스 모델링(ER Diagram)
 
