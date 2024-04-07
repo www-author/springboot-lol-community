@@ -1,17 +1,20 @@
 package com.lol.community.board.service;
 
 import com.lol.community.board.domain.Board;
+import com.lol.community.board.domain.BoardType;
 import com.lol.community.board.dto.request.BoardRequest;
-import com.lol.community.board.repository.BoardRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import com.lol.community.board.dto.response.BoardResponse;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
-@Service
-@RequiredArgsConstructor
-public class BoardService {
-    private final BoardRepository boardRepository;
+public interface BoardService {
+    Page<BoardResponse> findPageByBoardType(BoardType boardType, Pageable pageable);
 
-    public Board save(BoardRequest request) {
-        return boardRepository.save(request.toEntity());
-    }
+    Board save(BoardRequest request, String email);
+
+    Board findById(Integer id);
+
+    Board modify(Integer id, BoardRequest request);
+
+    void deleteById(Integer id);
 }
