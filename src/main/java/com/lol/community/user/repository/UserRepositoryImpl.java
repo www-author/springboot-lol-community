@@ -42,7 +42,10 @@ public class UserRepositoryImpl {
 
     public User findById(Integer id) {
         return em.find(User.class, id);
+
     }
+
+
 
     public void update(Integer id, UserEditForm updateParam) {
         User findUser = findById(id);

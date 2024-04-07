@@ -8,6 +8,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -49,5 +50,29 @@ public class UserServiceImpl {
         String encodedPassword = passwordEncoder.encode(updateParam.getPassword());
         updateParam.setPassword(encodedPassword);
         userRepository.update(id, updateParam);
+    }
+
+    //
+
+    public List<User> getAllUsers() {
+
+        List<User> userList = userRepository.findAll();
+        return userList;
+    }
+    @Transactional
+    public void updateUser(Integer id, User user) {
+        // id를 사용하여 기존 사용자 정보를 가져옴
+        User existingUser = userRepository.findById(id);
+
+
+        if (existingUser != null) {
+            // 새로운 사용자 정보로 업데이트
+            existingUser.setName(user.getName());
+            existingUser.setEmail(user.getEmail());
+            existingUser.setGrade(user.getGrade());
+
+            // 사용자 정보 저장
+            userRepository.save(existingUser);
+        }
     }
 }
