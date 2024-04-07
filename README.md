@@ -28,6 +28,9 @@
 <img src='https://github.com/HoJun0415/springboot-lol-community/blob/main/%EC%8A%A4%ED%83%9D.PNG'>
 
 ## 3. 패키지 구조
-[도메인 형]
+**[도메인 형]**
 
 <img src='https://github.com/HoJun0415/springboot-lol-community/blob/main/%ED%8C%A8%ED%82%A4%EC%A7%80%EA%B5%AC%EC%A1%B0.PNG'>
+
+## 4. 데이터베이스 모델링(ER Diagram)
+
