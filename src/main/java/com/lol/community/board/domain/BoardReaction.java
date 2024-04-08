@@ -4,7 +4,6 @@ package com.lol.community.board.domain;
 import com.lol.community.user.domain.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -35,10 +34,4 @@ public class BoardReaction {
             nullable = false
     )
     private User user;
-
-    @Builder
-    public BoardReaction(Board board, User user) {
-        this.board = board;
-        this.user = user;
-    }
 }
