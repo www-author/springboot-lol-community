@@ -23,7 +23,5 @@ public interface BoardReactionRepository extends JpaRepository<BoardReaction, In
             "and reactoin.board.boardType =:boardType " +
             "group by reactoin.board.id")
     List<BoardMainView> findBoardsWithCount(@Param("boardType") String boardType, PageRequest pageRequest);
-
-    Boolean existsBoardReactionByBoardIdAndUserId(Integer boardId, Integer userId);
 }
 
