@@ -8,28 +8,38 @@
 <body>
 <th:block th:insert="~{/layout/header::headerFragment}"></th:block>
 <main>
-    <section class="intro-main">
-        <img th:src="@{/img/banner.png}">
-    </section>
-    <section class="card-main board_wrap">
+    <section class="img_section"></section>
+    <section class="board_wrap" th:each="viewData : ${mainViewData}">
         <h2>자유 게시판</h2>
-        <article class="card text-white bg-secondary mb-3"
-                 style="max-width: 18rem;"
-                 th:each="viewData : ${mainViewData}">
-            <article class="card-header col"
-                     th:switch="${viewData.key}">
-                <th:block th:case="orderByViewCount" >조회 수 Top3</th:block>
-                <th:block th:case="orderByCommentCount" >댓글 수 Top3</th:block>
-                <th:block th:case="orderByLikeCount" >추천 수 Top3</th:block>
-                <button class="btn-link-board" th:href="@{/board/main}">
-                    <img th:src="@{/img/plus.png}">
-                </button>
-            </article>
-            <article class="card-body" th:each="data : ${viewData.getValue()}">
-                <h3 class="card-title" th:text="${data.getTitle()}" th:href="@{'/board/free/' + ${data.getBoardId()}}"></h3>
-                <p class="card-text" th:text="${data.getWriter()}"></p>
-                <span class="card-text" th:text="${data.getTotalCount()}"></span>
-            </article>
+        <article class="view_top" th:if="${viewData.key} == orderByViewCount">
+            <div>
+                <h2>조회수 TOP 3</h2>
+                <a><img th:src="@{/img/plus.png}"></a>
+            </div>
+            <div th:each="data : ${viewData.getValue()}">
+                <h2 th:text="${data.getTitle()}" th:href="@{'/board/free/' + ${data.getBoardId()}}"></h2>
+                <span th:text="${data.getWriter()}"></span>
+            </div>
+        </article>
+        <article class="comment_top" th:if="${viewData.key} == orderByCommentCount">
+            <div>
+                <h2>댓글수 TOP 3</h2>
+                <a><img th:src="@{/img/plus.png}"></a>
+            </div>
+            <div th:each="data : ${viewData.getValue()}">
+                <h2 th:text="${data.getTitle()}" th:href="@{'/board/free/' + ${data.getBoardId()}}"></h2>
+                <span th:text="${data.getWriter()}"></span>
+            </div>
+        </article>
+        <article class="likes_top" th:if="${viewData.key} == orderByLikeCount">
+            <div>
+                <h2>좋아요 수 TOP 3</h2>
+                <a><img th:src="@{/img/plus.png}"></a>
+            </div>
+            <div th:each="data : ${viewData.getValue()}">
+                <h2 th:text="${data.getTitle()}" th:href="@{'/board/free/' + ${data.getBoardId()}}"></h2>
+                <span th:text="${data.getWriter()}"></span>
+            </div>
         </article>
     </section>
 </main>
