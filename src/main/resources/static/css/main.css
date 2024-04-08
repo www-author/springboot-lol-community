@@ -48,14 +48,17 @@ header nav a {
     margin: 0;
     width: 100%;
     height: 25vh;
+    margin-bottom: 3vh;
     background: url("../img/banner.png") no-repeat;
     background-size: cover;
 }
 
 .board_wrap {
     display: flex;
-    justify: center;
+    justify-content: center;
     align-items: center;
+    width: 100%;
+    height: 100%;
 }
 
 .board_wrap article {
@@ -87,22 +90,50 @@ article {
     flex-direction: column;
 }
 
-article > div:not(:nth-child(4)) { /*마지막 div 빼고 border-bottom 적용*/
-    border-bottom: 1px solid grey;
-}
 
-article > div:nth-child(n+2) {
-    flex: 1;
-}
+/*article > div:nth-child(n+2) {*/
+/*    flex: 1;*/
+/*}*/
 
 article h2, span {
     margin-left: 10px;
 }
 
-article > div:first-child {
+article div {
+    width: 100%;
+}
+
+.div_wrap div:not(:nth-child(4)) {
+    border-bottom: 1px solid grey;
+    flex: 1;
+}
+
+article > div {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+.div_wrap > div:first-child {
+    display: flex;
+    justify-content: center;
+}
+
+.div_wrap img {
+    margin-top: 17px;
+}
+
+.div_wrap > div:nth-child(2) {
+    padding-bottom: 5px;
+}
+
+.div_wrap > div:nth-child(3) {
+    padding-bottom: 5px;
+}
+
+h2 {
+    margin-right: 5px;
 }
 
 article h1 {
@@ -113,9 +144,14 @@ article span {
     font-size: 12px;
 }
 
-.view_top, .comment_top{
+.board_wrap > article:first-child {
     margin-right: 50px;
 }
+
+.board_wrap > article:nth-child(2) {
+    margin-right: 50px;
+}
+
 /* main section ends */
 
 
