@@ -1,15 +1,21 @@
 package com.lol.community.board.controller;
 
+import com.lol.community.board.domain.Board;
 import com.lol.community.board.domain.BoardType;
 import com.lol.community.board.dto.request.BoardSearchRequest;
 import com.lol.community.board.dto.response.BoardResponse;
+import com.lol.community.board.service.BoardReactionService;
 import com.lol.community.board.service.BoardService;
 import com.lol.community.category.dto.response.CategoryResponse;
 import com.lol.community.category.service.CategoryService;
+import com.lol.community.comment.domain.Comment;
+import com.lol.community.comment.dto.CommentResponseDTO;
+import com.lol.community.comment.service.CommentService;
 import com.lol.community.user.domain.User;
 import com.lol.community.user.login.Login;
 import com.lol.community.user.login.SessionValue;
 import com.lol.community.user.service.UserService;
+import java.util.NoSuchElementException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -34,7 +40,9 @@ import static com.lol.community.user.domain.Grade.getGrades;
 public class BoardController {
     private final BoardService boardService;
     private final UserService userService;
+    private final CommentService commentService;
     private final CategoryService categoryService;
+    private final BoardReactionService boardReactionService;
 
     @GetMapping("/main")
     public String showMain(
@@ -48,22 +56,22 @@ public class BoardController {
 
     @GetMapping("/report")
     public String showArticlesOfReport(
-            @PageableDefault(
-                    size = 15,
-                    sort = "createdAt",
-                    direction = Sort.Direction.DESC
-            ) Pageable pageable,
-            @ModelAttribute BoardSearchRequest request,
-            @Login SessionValue sessionValue,
-            Model model
+        @PageableDefault(
+            size = 15,
+            sort = "createdAt",
+            direction = Sort.Direction.DESC
+        ) Pageable pageable,
+        @ModelAttribute BoardSearchRequest request,
+        @Login SessionValue sessionValue,
+        Model model
     ) {
         addModelAttributeOfUserInfo(sessionValue, model);
         addModelAttributesOfBoardList(
-                BoardType.REPORT.name(),
-                request,
-                sessionValue.getUserId(),
-                model,
-                pageable
+            BoardType.REPORT.name(),
+            request,
+            sessionValue.getUserId(),
+            model,
+            pageable
         );
         return "board/articles";
     }
@@ -104,12 +112,41 @@ public class BoardController {
         return "board/newArticle";
     }
 
+
+    @GetMapping("/{board_id}")
+    public String getArticle(@PathVariable Integer board_id, @Login SessionValue sessionValue, Model model) {
+        User user = userService.findUserById(sessionValue.getUserId());
+        if(user == null){
+            return "redirect:/login";
+        }
+
+        Board board = boardService.findById(board_id);
+        if(board == null) {
+            throw new NoSuchElementException("존재하지 않는 글입니다.");
+        }
+
+        List<CommentResponseDTO> bestCommentList = commentService.getBestComment(board.getId());
+
+        boolean isLike = boardReactionService.checkIsLikeArticle(board_id, user.getId());
+
+        model.addAttribute("bestCommentList", bestCommentList);
+        model.addAttribute("user_id", user.getId());
+        model.addAttribute("user_name", user.getName());
+        model.addAttribute("commentResult", commentService.getCommentList(board.getId(), 1, user.getId()));
+        model.addAttribute("article", board);
+        model.addAttribute("articleIsLike", isLike);
+
+        System.out.println(board);
+
+        return "board/article";
+    }
+
     public void addModelAttributesOfBoardList(
-            String boardType,
-            BoardSearchRequest request,
-            Integer userId,
-            Model model,
-            Pageable pageable
+        String boardType,
+        BoardSearchRequest request,
+        Integer userId,
+        Model model,
+        Pageable pageable
     ) {
         if (BoardType.FREE.name().equals(boardType)) {
             model.addAttribute("grades", getGrades());

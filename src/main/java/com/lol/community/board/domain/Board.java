@@ -97,11 +97,16 @@ public class Board extends BaseEntity {
                 .updatedAt(this.getUpdatedAt())
                 .build();
     }
-
-    // TODO 유저 정보도 엔티티에 저장할 것
+    // TODO
+    // 1. 유저 정보도 엔티티에 저장할 것
+    // 2. 파일 변경은 다음 기회에 진행 예정
     public void update(BoardRequest request) {
         this.category = request.toEntityByUser(new User()).getCategory();
         this.title = request.getTitle();
         this.content = request.getContent();
+    }
+
+    public void updateLikeCount(Integer likeCount) {
+        this.likeCount += likeCount;
     }
 }
