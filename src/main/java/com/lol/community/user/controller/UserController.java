@@ -3,6 +3,7 @@ package com.lol.community.user.controller;
 import com.lol.community.user.domain.GradeCode;
 import com.lol.community.user.domain.User;
 import com.lol.community.user.form.UserEditForm;
+import com.lol.community.user.form.UserListForm;
 import com.lol.community.user.form.UserSaveForm;
 import com.lol.community.user.login.Login;
 import com.lol.community.user.login.SessionValue;
@@ -13,12 +14,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Slf4j
@@ -98,5 +98,33 @@ public class UserController {
         userService.update(sessionValue.getUserId(), userEditForm);
 
         return "redirect:/";
+    }
+
+    @GetMapping("/list")
+    public String userListForm(@ModelAttribute("userListForm") UserListForm userListForm, Model model) {
+
+        List<User> userList = userService.getAllUsers();
+        model.addAttribute("userList", userList);
+
+        return "users/list";
+    }
+
+    @GetMapping("/list/{id}")
+    public String editUserForm(@PathVariable Integer id, Model model) {
+        User user = userService.findById(id);
+        model.addAttribute("user", user);
+
+        // 등급 옵션 설정
+        List<String> grades = Arrays.asList("하수", "중수", "고수");
+        model.addAttribute("grades", grades);
+        return "users/listEditUser";
+    }
+
+    // 사용자 정보 업데이트
+    @PostMapping("/list/{id}")
+    public String updateUser(@PathVariable Integer id, @ModelAttribute User user, RedirectAttributes redirectAttributes) {
+        userService.updateUser(id, user);
+        redirectAttributes.addFlashAttribute("successMessage", "사용자 정보가 업데이트되었습니다.");
+        return "redirect:/users/list";
     }
 }
