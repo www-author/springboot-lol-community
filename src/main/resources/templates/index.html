@@ -13,7 +13,7 @@
         <article th:each="viewData : ${mainViewData}">
             <div th:if="${viewData.key} == orderByViewCount" class="div_wrap">
                 <div>
-                    <h2>조회수 TOP 3</h2>
+                    <h2>조회수 TOP 33</h2>
                     <a><img th:src="@{/img/plus.png}" alt="plus_img" class="plus_img"></a>
                 </div>
                 <div th:each="data : ${viewData.getValue()}">
