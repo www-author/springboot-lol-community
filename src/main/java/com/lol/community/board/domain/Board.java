@@ -104,4 +104,8 @@ public class Board extends BaseEntity {
         this.title = request.getTitle();
         this.content = request.getContent();
     }
+
+    public void updateLikeCount(Integer likeCount) {
+        this.likeCount += likeCount;
+    }
 }

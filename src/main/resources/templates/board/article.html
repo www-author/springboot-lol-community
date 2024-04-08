@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <meta charset="UTF-8">
+  <title>글읽기</title>
+  <script src="http://code.jquery.com/jquery-latest.js"></script>
+
+  <style>
+    body{
+      background-color: #f2f2f2;
+    }
+
+    p{
+      margin: 0;
+      display: inline-block;
+    }
+
+    li {
+      list-style: none;
+      display: block;
+    }
+
+    .comment-page-number{
+      display: inline;
+    }
+
+    button{
+      border : none;
+      background-color: #F2F2F2;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    textarea{
+      box-sizing: border-box;
+      border: none;
+      background-color: #F2F2F2;
+      resize: none;
+      display: block;
+    }
+
+    textarea:hover{
+      outline: none;
+    }
+
+    textarea:focus{
+      outline: none;
+    }
+
+    #body-wrap{
+      box-sizing: border-box;
+      width: 980px;
+      margin: 0 auto;
+      background-color: #F2F2F2;
+      align-items: center;
+    }
+
+    #article textarea{
+      width: 100%;
+      min-height: 500px;
+    }
+
+    .mb-3{
+      margin-top: 30px;
+    }
+
+    #category-article{
+      width: 70px;
+      margin-right: 20px;
+    }
+
+    #writer-article{
+      display: inline-block;
+      width: 70px;
+      margin-right: 20px;
+    }
+
+    #article-body{
+      padding: 0 20px;
+    }
+
+    #article-header {
+      box-sizing: border-box;
+      width: 100%;
+      height: 70px;
+      padding: 10px;
+      background-color: #313131;
+      color: #f7f7f7;
+      text-align: left;
+      vertical-align: middle;
+    }
+
+    #article-header-top{
+      margin-bottom: 8px;
+    }
+
+    #article-header-bottom p:first-child{
+      float: left;
+    }
+
+    #article-header-bottom p:last-child{
+      float: right;
+    }
+
+    #count-article-view{
+      width: 90px;
+      margin-left: 20px;
+    }
+
+    #article-body span {
+      display: inline-block;
+    }
+
+    #content-article{
+      font-size: 18px;
+      font-weight: normal;
+    }
+
+    #writer-btn-box{
+      float: right;
+      justify-content: space-between;
+      margin: 20px 0;
+    }
+
+    #btn-modify-article{
+      background-color: #313131;
+      color: #f7f7f7;
+      width: 50px;
+      height: 30px;
+    }
+
+    #btn-delete-article{
+      background-color: crimson;
+      color: #f7f7f7;
+      width: 50px;
+      height: 30px;
+    }
+
+    #btn-article-like{
+      width: 120px;
+      height: 120px;
+      margin: 0 auto;
+      display: block;
+      background-color: #ffffff;
+      border: 0;
+      border-radius: 15px;
+      justify-content: center;
+    }
+
+    #btn-article-like > p{
+      display: block;
+    }
+
+    #comment-area{
+      margin-top: 80px;
+    }
+
+    #comment-area-header{
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(0,0,0,0.2);
+    }
+
+    #comment-area-header h3{
+      display: inline-block;
+      margin: 0;
+    }
+
+    #btn-refresh{
+      float: right;
+    }
+
+    .comment-input-area {
+      align-items: center;
+      position: relative;
+    }
+
+    .comment-input-common{
+      box-sizing: border-box;
+      width: 100%;
+      min-height: 100px;
+      padding: 10px 100px 10px 10px;
+      vertical-align: top;
+      text-align: left;
+      background-color: #ffffff;
+      border: 1px solid rgba(0,0,0,0.3);
+      border-radius: 10px;
+    }
+
+    .comment-btn-common{
+      background-color: #424242;
+      box-sizing: border-box;
+      position: absolute;
+      right: 5px;
+      bottom: 5px;
+      width: 90px;
+      height: 90px;
+      border-radius: 10px;
+      color: #f7f7f7;
+      font-weight: bold;
+    }
+
+    .comment-header{
+      height: 35px;
+    }
+
+    .comment-header *{
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    .comment-header-left{
+      float: left;
+    }
+
+    .comment-header-left *{
+      margin-right: 15px;
+    }
+
+    .comment-content{
+      width: 100%;
+    }
+
+    .comment-btn-area{
+      float: right;
+    }
+
+    .comment-btn-area *{
+      margin-left: 15px;
+    }
+
+    .btn-delete{
+      color: crimson;
+    }
+
+    .icon-like{
+      width: 20px;
+      height: 20px;
+    }
+
+    ul{
+      padding: 0;
+    }
+
+    .list-item{
+      border-top: 1px solid rgba(0,0,0,0.3);
+      padding: 10px 0;
+    }
+
+    #comment-page-list{
+      margin: 15px auto;
+      width: fit-content;
+    }
+
+    #comment-page-list li{
+      display: inline;
+      width: 30px;
+      height: 30px;
+    }
+
+    #comment-page-list button{
+      border: 1px solid rgba(0,0,0, 0.3);
+      margin: 0;
+    }
+
+    #btn-article-list{
+      width: 50px;
+      height: 30px;
+      background-color: #313131;
+      color: #ffffff;
+    }
+
+  </style>
+</head>
+
+<body>
+<div id="body-wrap">
+
+<header th:replace="~{/layout/header::headerFragment}"></header>
+<h2 class="mb-3" th:text="${article.boardType.equals('REPORT') ? '신고게시판': '자유게시판'}"></h2>
+<div id="article-header">
+  <div id="article-header-top">
+    <p id="category-article" th:text="'[' + ${article.category.categoryName} + ']'"></p><p id="title-article" th:text="${article.title}"></p>
+  </div>
+  <div id="article-header-bottom">
+    <p><span id="writer-article" th:text="${article.user.name}"></span><span id="article-created-at" th:text="${#temporals.format(article.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></span></p>
+    <p><span class='count-article-like' th:text="'좋아요  ' + ${article.getLikeCount()}"></span><span id="count-article-view" th:text="'조회수  ' + ${article.viewCount}"></span></p>
+  </div>
+</div>
+<div id="article-body">
+  <div id="article">
+    <div id="writer-btn-box" th:if="${article.user.id} == ${user_id}">
+      <button id="btn-modify-article">수정</button>
+      <button id="btn-delete-article">삭제</button>
+    </div>
+    <textarea id="content-article" th:text="${article.content}" readonly></textarea>
+    <button id="btn-article-like" th:class="${articleIsLike}?'article-like-cancel':'article-like'">
+      <img id="icon-article-like" th:src="${articleIsLike}?'/icon/thumb-up-fill.png':'/icon/thumb-up.png'">
+      <p class='count-article-like' th:text="${article.getLikeCount()}"></p>
+    </button>
+  </div>
+
+<!--  댓글 영역 시작 -->
+  <div id="comment-area">
+    <div id="comment-area-header">
+      <h3>댓글</h3>
+      <button id="btn-refresh">↻ 새로고침</button>
+    </div>
+    <!--  댓글 입력-->
+    <div class="comment-input-area">
+      <form id="form-comment">
+        <input type="hidden" id="input-user-id" th:value="${user_id}">
+        <input type="hidden" id="input-board-id" th:value="${article.id}">
+        <input type="hidden" id="input-comment-page" th:value="${commentResult.page}">
+        <textarea id="input-comment" class="comment-input-common" type="text" placeholder="댓글을 입력하세요."></textarea>
+        <button id="btn-comment-submit" class="comment-btn-common" type="submit">작성</button>
+      </form>
+    </div>
+
+    <!--  모든 댓글-->
+    <div id="all-comment">
+      <!--  베스트 댓글-->
+      <ul th:if="${commentResult.getPage() == 1}" id="best-comment">
+        <li th:each="best : ${bestCommentList}">
+          <div>
+            <p class="comment-writer" th:text="${best.userName}"></p>
+            <p class="comment-create" th:text="${#temporals.format(best.created_at, 'yyyy-MM-dd HH:mm:ss')}"></p>
+            <button class="btn-like" th:attr="data-comment-id=${best.id}">
+              <span>[[${best.likeCount}]]</span>
+              <span>좋아요</span>
+            </button>
+          </div>
+          <textarea th:text="${best.content}" readonly></textarea>
+        </li>
+      </ul>
+
+      <!--  댓글 목록-->
+      <ul id="comment-list">
+        <li class="list-item" th:each="comment : ${commentResult.dtoList}" th:attr="data-depth=${comment.co_depth}, data-order=${comment.co_order}" th:style="'margin-left: '+ ${comment.co_depth}*6+'%;'">
+            <input class="comment-id" type="hidden" name="comment-id" th:value="${comment.id}">
+            <div class="comment-header">
+              <div class="comment-header-left">
+                <p class="comment-writer" th:text="${comment.userName}"></p>
+                <p class="comment-create" th:text="${#temporals.format(comment.created_at, 'yyyy-MM-dd HH:mm:ss')}"></p>
+              </div>
+              <div class="comment-btn-area">
+                <div th:if="${user_id} == ${comment.user_id}">
+                  <button class="btn-modify">수정</button>
+                  <button class="btn-delete">삭제</button>
+                </div>
+                <button class="btn-reply-toggle">답글</button>
+                <button th:class="${comment.getIsLike()}?'btn-like-cancel':'btn-like'" class="" th:attr="data-comment-id=${comment.id}">
+                  <span th:class="'count-like-' + ${comment.id}" th:text="${comment.getLikeCount()}"></span>
+                  <img class="icon-like" th:src="${comment.getIsLike()}?'/icon/thumb-up-fill.png':'/icon/thumb-up.png'" th:attr="isLike=${comment.getIsLike()}">
+                </button>
+              </div>
+            </div>
+            <textarea class="comment-content" th:text="${comment.content}"></textarea>
+        </li>
+      </ul>
+
+      <!--  댓글 페이지 목록-->
+      <ul id="comment-page-list">
+        <li th:if="${commentResult.prev}">
+          <button class="page-list-item" id="comment-page-prev" tabindex="-1"><</button>
+        </li>
+
+        <li th:each="page : ${commentResult.pageList}">
+          <button class="comment-page-number page-list-item" th:attr="data-page=${page}" th:text="${page}"></button>
+        </li>
+
+        <li th:if="${commentResult.next}">
+          <button class="page-list-item" id="comment-page-next" >></button>
+        </li>
+      </ul>
+
+      <a th:href="@{${article.boardType == 'FREE' ? '/board/free' : '/board/report'}}"><button id="btn-article-list">목록</button></a>
+
+
+    </div>
+
+    <footer th:replace="~{/layout/footer::footerFragment}"></footer>
+
+    <!--  대댓글 입력 폼-->
+    <div id="form-reply" class="comment-input-area" style="display: none">
+      <form>
+        <textarea id="input-reply" class="comment-input-common" type="text" name="reply-content" placeholder="답글을 입력하세요."></textarea>
+        <button id="btn-reply-submit" class="comment-btn-common" type="button">등록</button>
+      </form>
+    </div>
+
+    <!--  수정 입력 폼-->
+    <div id="form-modify" class="comment-input-area" style="display: none">
+      <form>
+        <textarea id="input-modify" class="comment-input-common" type="text" name="modify-content"></textarea>
+        <button id="btn-modify-submit" class="comment-btn-common" type="button">등록</button>
+      </form>
+    </div>
+
+    <script th:inline="javascript">
+
+      var user_id = $('#input-user-id').val();
+      var board_id = $('#input-board-id').val();
+      var comment_page = $('#input-comment-page').val();
+
+      $(document).ready(function(){
+
+        // let board_id = [[${article.id}]];
+
+        // 글 좋아요
+        function addArticleLike(){
+          $.ajax({
+            url: '/reaction/board/like',
+            method: 'post',
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify({
+              boardId: board_id,
+              userId: user_id
+            }),
+            success: function(result){
+              console.log("글 좋아요 성공" + result)
+              $("#icon-article-like").attr("src", "/icon/thumb-up-fill.png");
+              $("#btn-article-like").attr('class',"article-like-cancel");
+              $(".count-article-like").html(result);
+            }
+          })
+        }
+
+        function subArticleLike(){
+          $.ajax({
+            url: '/reaction/board/like',
+            method: 'delete',
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify({
+              boardId: board_id,
+              userId: user_id
+            }),
+            success: function(result){
+              console.log("글 좋아요 취소 성공" + result)
+              $("#icon-article-like").attr("src", "/icon/thumb-up.png");
+              $("#btn-article-like").attr('class',"article-like");
+              $(".count-article-like").html(result);
+            }
+          })
+        }
+
+        $(document).on("click", ".article-like", addArticleLike);
+        $(document).on("click", ".article-like-cancel", subArticleLike);
+
+        //글 삭제
+        function deleteArticle(){
+          if(!confirm('삭제하시면 복구할수 없습니다. \n 정말로 삭제하시겠습니까??')){
+            return false;
+          }
+
+          $.ajax({
+            url:"/api/board/" + board_id,
+            method: "delete",
+            success(){
+              console.log("삭제 성공");
+              location.href
+            }
+          })
+        }
+
+        $(document).on("click","#btn-delete-article",deleteArticle);
+
+        // 댓글 등록 버튼
+        $('#form-comment').submit(function(event) {
+          event.preventDefault(); // 폼 기본 동작 방지
+          var content = $('#input-comment').val(); // 입력된 댓글 텍스트 가져오기
+          console.log(content, board_id, user_id);
+
+          $.ajax({
+            url: '/comment/write',
+            method: 'POST',
+            contentType : 'application/json; charset=utf-8',
+            data: JSON.stringify({
+              content: content,
+              board_id: board_id,
+              user_id: user_id
+            }),
+            success: function() {
+              // 댓글 등록 성공 시, 목록 다시 불러오기
+              console.log("댓글 등록 성공")
+              $('#input-comment').val(''); // 입력 필드 비우기
+            }
+          }).done(loadComment);
+        });
+
+        //토글 입력폼 나타내기 버튼
+        function displayReplyForm (){
+          $('#form-reply').appendTo($(this).parent().parent().parent()).toggle();
+        }
+
+        $(document).on('click', '.btn-reply-toggle', displayReplyForm);
+
+        //대댓글 등록 버튼
+        function writeReply(){
+
+          var parent_id = $(this).closest('.list-item').children('.comment-id').val();
+          var content = $(this).prev().val();
+
+          console.log(parent_id + " / " + content);
+
+          $.ajax({
+            url : '/comment/write',
+            method: 'post',
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify({
+              parent_id: parent_id,
+              content: content,
+              board_id: board_id,
+              user_id: user_id
+            }),
+            success: function(){
+              console.log("대댓글 등록 성공")
+              $("#form-reply").css("display","none").appendTo("body");
+              $("#input-reply").val("");
+            }
+          }).done(loadComment);
+        }
+
+        $(document).on('click', '#btn-reply-submit', writeReply);
+
+        //수정 버튼
+        function displayModifyForm (){
+          var originalContent = $(this).parent().parent().find('textarea').val();
+          console.log(originalContent);
+          $('#input-modify').val(originalContent);
+          $('#form-modify').appendTo($(this).parent().parent()).toggle();
+        }
+        $(document).on('click', '.btn-modify', displayModifyForm)
+
+        function modifyComment(){
+
+          var comment_id = $(this).closest('.list-item').children('.comment-id').val();
+          var content = $(this).prev().val();
+
+          console.log(comment_id + " / " + content);
+
+          $.ajax({
+            url : '/comment/update',
+            method: 'put',
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify({
+              id: comment_id,
+              content: content,
+              user_id: user_id
+            }),
+            success: function(){
+              console.log("댓글 수정 성공")
+              $("#form-modify").css("display","none").appendTo("body");
+              $("#input-modify").val("");
+            }
+          }).done(loadComment);
+        }
+
+        $(document).on('click', '#btn-modify-submit', modifyComment);
+
+
+        // 삭제 버튼
+        function deleteComment(){
+          var getComment_id = $(this).parent().parent().parent().find('.comment-id').val();
+
+          console.log(getComment_id);
+
+          $.ajax({
+            url: '/comment/delete',
+            method: 'delete',
+            data: {
+              comment_id : getComment_id
+            },
+            success: function (){
+              console.log("삭제 성공")
+            }
+          }).done(loadComment);
+        }
+
+        $(document).on('click', '.btn-delete', deleteComment);
+
+        //새로고침
+        function loadComment() {
+          var loadRequestInfo = {
+            board_id : board_id,
+            page : comment_page
+          };
+
+          console.log(loadRequestInfo)
+
+          $.ajax({
+            url: '/comment/list',
+            method: 'get',
+            data: loadRequestInfo,
+            success: function () {
+              console.log("새로고침 성공");
+            }
+          })
+          .done(function (fragment){
+            $('#all-comment').replaceWith(fragment);
+          });
+        }
+
+        // 댓글 새로고침 버튼 클릭 이벤트
+        $('#btn-refresh').click(function() {
+          loadComment();
+        });
+
+        function addLike (){
+          var comment_id = $(this).data('comment-id');
+
+          var likeRequest ={
+            comment_id : comment_id,
+            user_id : user_id
+          }
+
+          $.ajax({
+            url: '/reaction/comment/like',
+            method: 'post',
+            data: JSON.stringify(likeRequest),
+            contentType : 'application/json; charset=utf-8',
+            dataType : "json",
+            success: function(data){
+              console.log("좋아요 성공" + data);
+              $('[data-comment-id='+comment_id+']').children('.icon-like').attr("src", "/icon/thumb-up-fill.png");
+              $(".count-like-"+comment_id).html(data);
+              $('[data-comment-id='+comment_id+']').attr('class',"btn-like-cancel");
+            }
+          });
+        }
+
+        function subLike (){
+          var comment_id = $(this).data('comment-id');
+
+          var likeRequest ={
+            comment_id : comment_id,
+            user_id : user_id
+          }
+
+          $.ajax({
+            url: '/reaction/comment/like',
+            method: 'delete',
+            data: JSON.stringify(likeRequest),
+            contentType : 'application/json; charset=utf-8',
+            dataType : "json",
+            success: function(data){
+              console.log("좋아요 취소 성공" + data);
+              $('[data-comment-id='+comment_id+']').children('.icon-like').attr("src", "/icon/thumb-up.png");
+              $(".count-like-"+comment_id).html(data);
+              $('[data-comment-id='+comment_id+']').attr('class',"btn-like");
+            }
+          });
+        }
+
+        // .on으로 이후 추가되는 요소에도 이벤트 연결해줌
+        $(document).on('click', '.btn-like', addLike);
+        $(document).on('click', '.btn-like-cancel', subLike);
+
+
+        function pageMove() {
+
+          var loadRequestInfo = {
+            board_id : board_id,
+            page : $(this).data("page")
+          };
+
+          $.ajax({
+            url: '/comment/list',
+            method: 'get',
+            data: loadRequestInfo,
+            success: function () {
+              console.log("페이지 이동 성공");
+            }
+          })
+          .done(function (fragment){
+            $('#all-comment').replaceWith(fragment);
+          });
+        }
+
+        $(document).on("click", ".comment-page-number", pageMove)
+
+        // 이전 페이지
+        function prevMove() {
+          var loadRequestInfo = {
+            board_id : board_id,
+            page : [[${commentResult.start - 1}]]
+          };
+
+          $.ajax({
+            url: '/comment/list',
+            method: 'get',
+            data: loadRequestInfo,
+            success: function () {
+              console.log("이전페이지 이동 성공");
+            }
+          })
+          .done(function (fragment){
+            $('#all-comment').replaceWith(fragment);
+          });
+        }
+
+        $(document).on("click", "#comment-page-prev", prevMove)
+
+        // 다음 페이지
+        function nextMove() {
+          var loadRequestInfo = {
+            board_id : board_id,
+            page : [[${commentResult.end + 1}]]
+          };
+
+          $.ajax({
+            url: '/comment/list',
+            method: 'get',
+            data: loadRequestInfo,
+            success: function () {
+              console.log("다음페이지 이동 성공");
+            }
+          })
+          .done(function (fragment){
+            $('#all-comment').replaceWith(fragment);
+          });
+        }
+
+        $(document).on("click", "#comment-page-next", nextMove)
+
+      })
+    </script>
+  </div>
+</div>
+</body>
+</html>
