@@ -1,0 +1,217 @@
+body, html {
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    background-color: #efefef;
+}
+
+header, footer {
+    display: flex;
+    justify-content: center;
+    background-color: #424242;
+    width: 100%;
+    height: 80px;
+}
+/* header section starts */
+
+header div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 1280px;
+    max-width: 1920px;
+}
+
+header img {
+    width: 150px;
+    height: 70px;
+}
+
+header nav a {
+    color: white;
+    font-size: 16px;
+    font-weight: 700;
+    text-decoration: none;
+    margin-right: 18px;
+}
+/* header section ends */
+
+/* main section starts */
+.main_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 40px;
+    width: 100%;
+}
+
+.main_wrap {
+    display: flex;
+    flex-direction: column;
+    width: 1280px;
+}
+
+.title {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 200px;
+}
+
+.title span {
+    margin-top: 20px;
+    color: grey;
+    font-weight: 600;
+    font-size: 18px;
+}
+
+.list_wrap {
+    display: flex;
+}
+
+.user_list1 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 200px;
+    background-color: white;
+    width: 350px;
+    height: 400px;
+}
+
+.user_list1 span {
+    display: block;
+    margin-top: 15px;
+    margin-right: 240px;
+    margin-bottom: 30px;
+    font-weight: 600;
+}
+
+.user_list1 table {
+    border-spacing: 0px;
+    width: 330px;
+}
+
+.user_list1 thead {
+    background-color: #424242;
+    color: white;
+}
+
+.user_list1 tbody {
+    background-color: #efefef;
+}
+
+.user_list1 tbody tr {
+    cursor: pointer;
+}
+
+.user_list1 tbody tr:hover {
+    background-color: lightgrey;
+}
+
+.user_list1 th, td {
+    border-bottom: 1px solid #424242;
+    font-weight: 500;
+    padding: 7px;
+}
+
+.btnImage {
+    width: 40px;
+    height: 40px;
+    margin-left: 50px;
+    margin-top: 150px;
+}
+
+.user_list2 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 50px;
+    background-color: white;
+    width: 350px;
+    height: 400px;
+}
+
+.user_list2 .list2_wrap {
+    display: flex;
+}
+
+.list2_wrap button {
+    margin-top: 15px;
+    margin-left: 20px;
+    background-color: #424242;
+    cursor: pointer;
+    color: white;
+    width: 50px;
+    height: 30px;
+}
+
+.user_list2 table {
+    border-spacing: 0px;
+    font-size: 14px;
+    width: 330px;
+}
+
+.user_list2 td {
+    border-bottom: 1px solid #424242;
+    width: 25%;
+    text-align: center;
+    padding: 5px;
+}
+
+.user_list2 span {
+    display: block;
+    margin-top: 15px;
+    margin-right: 170px;
+    margin-bottom: 30px;
+    font-weight: 600;
+}
+
+.user_list2 tr > td:nth-child(odd) {
+    background-color: #efefef;
+}
+
+.user_list2 tr > td:nth-child(even) {
+    background-color: #f7f7f7;
+}
+
+/* main section ends */
+
+
+/* footer section starts */
+footer {
+    position: fixed;
+    bottom: 0;
+}
+
+footer div {
+    display: flex;
+    align-items: center;
+    width: 1280px;
+    max-width: 1920px;
+}
+footer span {
+    color: white;
+    font-size: 17px;
+    font-weight: 600;
+    margin-left: 580px;
+    margin-right: 240px;
+}
+
+footer ul {
+    display: flex;
+    flex-direction: row;
+    width: 250px;
+    list-style-type: none;
+}
+
+footer li {
+    margin-left: 15px;
+}
+
+footer img {
+    width: 50px;
+    height: 50px;
+}
+/* footer section ends */

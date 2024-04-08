@@ -1,48 +1,50 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="ko-KR">
-    <th:block th:replace="~{/layout/head::headFragment}"></th:block>
+<head>
+    <meta charset="UTF-8">
+    <title>롤 정보 공유 커뮤니티</title>
+    <link rel="stylesheet" th:href="@{https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/article.css}">
+</head>
     <body>
         <th:block th:replace="~{/layout/header::headerFragment}"></th:block>
-        <main>
-            <section class="p-5 mb-5 bg-light">
-                <h1 class="mb-3" th:text="${boardType.equals('REPORT') ? '신고게시판' : '자유게시판'}"></h1>
-            </section>
-            <section class="container">
-                <section class="btn-area">
-                    <form th:action="@{/board/{boardType}(boardType=${boardType.toLowerCase()})}" method="get" role="search">
-                        <select id="category-box"
-                                th:name="categories">
-                            <option value="0">전체 유형</option>
-                            <option th:each="category : ${categories}"
-                                    th:value="${category?.id}"
-                                    th:utext="${category?.name}"
-                                    th:selected="${selectedType['category'] == category?.id}">
-                            </option>
-                        </select>
-                        <select th:if="${boardType.equals('FREE')}" th:name="grades">
-                            <option value="0">== 본인 등급 이하를 선택하세요.==</option>
-                            <option th:each="grade : ${grades}"
-                                    th:value="${grade?.getId()}"
-                                    th:utext="${grade?.getName()}"
-                                    th:selected="${selectedType['grade'] == category?.id}"
-                            ></option>
-                        </select>
-                        <label for="search"></label>
-                        <div class="input-group">
-                            <input type="text" id="search" name="keyword"  placeholder="검색어를 입력하세요." >
-                            <button class="btn-search">
-                                <!--TODO 아이콘 변경-->
-                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
-                                </svg>
-                            </button>
-                        </div>
-                    </form>
-                    <button class="btn-dark float-right"
-                            th:onclick="|location.href='@{/board/new/{boardType}(boardType=${boardType.toLowerCase()})}'|">
-                        글쓰기
-                    </button>
+        <main class="main_container">
+            <div class="main_wrap">
+                <section>
+                    <h1 class="mb-3" th:text="${boardType.equals('REPORT') ? '신고게시판' : '자유게시판'}"></h1>
                 </section>
+                <section class="search_container">
+                        <form th:action="@{/board/{boardType}(boardType=${boardType.toLowerCase()})}" method="get" role="search" class="search-form">
+                            <select id="category-box"
+                                    th:name="categories">
+                                <option value="0">전체 유형</option>
+                                <option th:each="category : ${categories}"
+                                        th:value="${category?.id}"
+                                        th:utext="${category?.name}"
+                                        th:selected="${selectedType['category'] == category?.id}">
+                                </option>
+                            </select>
+                            <select th:if="${boardType.equals('FREE')}" th:name="grades">
+                                <option value="0">== 본인 등급 이하를 선택하세요.==</option>
+                                <option th:each="grade : ${grades}"
+                                        th:value="${grade?.getId()}"
+                                        th:utext="${grade?.getName()}"
+                                        th:selected="${selectedType['grade'] == category?.id}"
+                                ></option>
+                            </select>
+                            <div class="div_wrap1">
+                                <label for="search"></label>
+                                <input type="text" id="search" name="keyword"  placeholder="검색어를 입력하세요." >
+                                <button type="submit">
+                                    <img th:src="@{/img/search.png}">
+                                </button>
+                            </div>
+                        </form>
+                        <div class="div_wrap2">
+                            <img th:src="@{/img/pencil.png}">
+                            <button class="btn_write" th:onclick="|location.href='@{/board/new/{boardType}(boardType=${boardType.toLowerCase()})}'|">글쓰기</button>
+                        </div>
+                    </section>
                 <table class="table table-hover table-border" style="text-align: center">
                     <thead class="table-dark">
                     <tr>
@@ -69,15 +71,15 @@
                     </tr>
                     </tbody>
                 </table>
-                <nav th:if="${!articles.isEmpty()}">
-                    <ul class="pagination justify-content-center"
+                <nav th:if="${!articles.isEmpty()}" >
+                    <ul class="pagination"
                         th:with="
-                    pageNumber = ${articles.pageable.pageNumber},
-                    pageSize = ${articles.pageable.pageSize},
-                    totalPages = ${articles.totalPages},
-                    startPage = ${T(java.lang.Math).floor(pageNumber / pageSize) * pageSize + 1},
-                    tempEndPage = ${startPage + pageSize - 1},
-                    endPage = (${tempEndPage < totalPages ? tempEndPage : totalPages})">
+                        pageNumber = ${articles.pageable.pageNumber},
+                        pageSize = ${articles.pageable.pageSize},
+                        totalPages = ${articles.totalPages},
+                        startPage = ${T(java.lang.Math).floor(pageNumber / pageSize) * pageSize + 1},
+                        tempEndPage = ${startPage + pageSize - 1},
+                        endPage = (${tempEndPage < totalPages ? tempEndPage : totalPages})">
                         <li th:classappend="${articles.first} ? 'disabled'" class="page-item">
                             <a class="page-link"
                                th:href="${articles.first} ? '#' : '/board/' + ${boardType.toLowerCase()} + '?page=' + ${pageNumber - 1}">
@@ -94,8 +96,9 @@
                         </li>
                     </ul>
                 </nav>
-            </section>
+            </div>
+            <a href="#"><img th:src="@{/img/arrow.png}" class="arrow_img"></a>
         </main>
-        <th:block th:replace="~{/layout/footer::footerFragment}"></th:block>
+        <footer th:replace="~{/layout/footer::footerFragment}"></footer>
     </body>
 </html>

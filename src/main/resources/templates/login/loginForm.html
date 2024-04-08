@@ -3,28 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <title>롤 정보 공유 커뮤니티</title>
-    <link rel="stylesheet" href="/css/loginForm.css">
+    <link rel="stylesheet" th:href="@{/css/loginForm.css}">
 </head>
 <body>
     <main class="main_container">
-        <img src="img/logo.png" th:src="@{/img/logo.png}" alt="logo">
-        <form action="" th:action th:object="${loginForm}" method="post">
-            <div class="wrap1">
-                <img src="img/user_img.png" th:src="@{/img/user_img.png}" alt="user_img">
-                <input type="text" placeholder="아이디" th:field="*{name}" class="form-control" th:errorclass="field-error">
-            </div>
-            <div class="wrap2">
-                <img src="img/lock_img.png" th:src="@{/img/lock_img.png}" alt="lock_img">
-                <input type="password" placeholder="비밀번호" th:field="*{password}" class="form-control" th:errorclass="field-error">
-            </div>
-            <a href="/users/add">Not a member? 회원가입</a>
-
-            <div th:if="${#fields.hasGlobalErrors()}">
-                <p th:each="err : ${#fields.globalErrors()}" th:text="${err}" class="global">전체 오류 메시지</p>
-            </div>
-
-            <button class="login_btn" type="submit">로그인</button>
-        </form>
+        <div>
+            <img th:src="@{/img/logo.png}" alt="" class="logo_img">
+            <form th:action th:object="${loginForm}" method="post">
+                <div>
+                    <img th:src="@{/img/user_img.png}" alt="">
+                    <input type="text" th:field="*{name}" placeholder="아이디">
+                </div>
+                <div>
+                    <img th:src="@{/img/lock_img.png}" alt="">
+                    <input type="password" th:field="*{password}" placeholder="패스워드">
+                </div>
+                <a th:href="@{/users/add}">Not a member? 회원가입</a>
+                <div th:if="${#fields.hasGlobalErrors()}">
+                    <p th:each="err : ${#fields.globalErrors()}" th:text="${err}" class="error_message">전체 오류 메시지</p>
+                </div>
+                <button type="submit">로그인</button>
+            </form>
+        </div>
     </main>
     <div th:replace="~{/layout/footer::footerFragment}"></div>
 </body>

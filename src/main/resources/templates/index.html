@@ -1,34 +1,48 @@
 <!DOCTYPE html>
 <html lang="ko-KR" xmlns:th="http://www.thymeleaf.org">
-<th:block th:insert="~{/layout/head::headFragment}"></th:block>
-<link th:href="@{/css/main.css}" rel="stylesheet" />
-    <body>
-    <th:block th:insert="~{/layout/header::headerFragment}"></th:block>
-        <main>
-            <section class="intro-main">
-            </section>
-            <section class="card-main">
-                <h2>자유 게시판</h2>
-                <article class="card text-white bg-secondary mb-3 "
-                         style="max-width: 18rem;"
-                         th:each="viewData : ${mainViewData}">
-                    <article class="card-header col"
-                             th:switch="${viewData.key}">
-                        <th:block th:case="orderByViewCount" >조회 수 Top3</th:block>
-                        <th:block th:case="orderByCommentCount" >댓글 수 Top3</th:block>
-                        <th:block th:case="orderByLikeCount" >추천 수 Top3</th:block>
-                        <button class="btn-link-board" th:href="@{/board/main}">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="12" height="12"><path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM232 344V280H168c-13.3 0-24-10.7-24-24s10.7-24 24-24h64V168c0-13.3 10.7-24 24-24s24 10.7 24 24v64h64c13.3 0 24 10.7 24 24s-10.7 24-24 24H280v64c0 13.3-10.7 24-24 24s-24-10.7-24-24z"/></svg>
-                        </button>
-                    </article>
-                    <article class="card-body" th:each="data : ${viewData.getValue()}">
-                        <h3 class="card-title" th:text="${data.getTitle()}" th:href="@{'/board/free/' + ${data.getBoardId()}}"></h3>
-                        <p class="card-text" th:text="${data.getWriter()}"></p>
-                        <span class="card-text" th:text="${data.getTotalCount()}"></span>
-                    </article>
-                </article>
-            </section>
-        </main>
-        <th:block th:insert="~{/layout/footer::footerFragment}"></th:block>
-    </body>
+<head>
+    <meta charset="UTF-8">
+    <title>롤 정보 공유 커뮤니티</title>
+    <link rel="stylesheet" th:href="@{../css/main.css}">
+</head>
+<body>
+<th:block th:insert="~{/layout/header::headerFragment}"></th:block>
+<main>
+    <section class="img_section"></section>
+    <section class="board_wrap" th:each="viewData : ${mainViewData}">
+        <h2>자유 게시판</h2>
+        <article class="view_top" th:if="${viewData.key} == orderByViewCount">
+            <div>
+                <h2>조회수 TOP 3</h2>
+                <a><img th:src="@{/img/plus.png}"></a>
+            </div>
+            <div th:each="data : ${viewData.getValue()}">
+                <h2 th:text="${data.getTitle()}" th:href="@{'/board/free/' + ${data.getBoardId()}}"></h2>
+                <span th:text="${data.getWriter()}"></span>
+            </div>
+        </article>
+        <article class="comment_top" th:if="${viewData.key} == orderByCommentCount">
+            <div>
+                <h2>댓글수 TOP 3</h2>
+                <a><img th:src="@{/img/plus.png}"></a>
+            </div>
+            <div th:each="data : ${viewData.getValue()}">
+                <h2 th:text="${data.getTitle()}" th:href="@{'/board/free/' + ${data.getBoardId()}}"></h2>
+                <span th:text="${data.getWriter()}"></span>
+            </div>
+        </article>
+        <article class="likes_top" th:if="${viewData.key} == orderByLikeCount">
+            <div>
+                <h2>좋아요 수 TOP 3</h2>
+                <a><img th:src="@{/img/plus.png}"></a>
+            </div>
+            <div th:each="data : ${viewData.getValue()}">
+                <h2 th:text="${data.getTitle()}" th:href="@{'/board/free/' + ${data.getBoardId()}}"></h2>
+                <span th:text="${data.getWriter()}"></span>
+            </div>
+        </article>
+    </section>
+</main>
+<footer th:replace="~{/layout/footer::footerFragment}"></footer>
+</body>
 </html>

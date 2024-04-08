@@ -3,30 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <title>롤 정보 공유 커뮤니티</title>
-    <link rel="stylesheet" href="/css/addUserForm.css">
+    <link rel="stylesheet" th:href="@{/css/addUserForm.css}">
 </head>
 <body>
     <main class="main_container">
-        <img src="img/logo.png" th:src="@{/img/logo.png}" alt="logo">
-        <form th:action th:object="${user}" method="post">
-            <input type="text" placeholder="아이디" th:field="*{name}" required>
-            <div class="field-error" th:errors="*{name}"></div>
-            <input type="password" placeholder="비밀번호" th:field="*{password}" required>
-            <div class="field-error" th:errors="*{password}"></div>
-            <input type="password" placeholder="비밀번호 확인" th:field="*{pwCheck}" required>
-            <div class="field-error" th:errors="*{pwCheck}"></div>
-            <input type="email" placeholder="이메일" th:field="*{email}" required>
-            <div class="field-error" th:errors="*{email}"></div>
-            <select th:field="*{gradeCode}" required>
-                <option value="">등급</option>
-                <option th:each="gradeCode : ${gradeCodes}" th:value="${gradeCode.code}" th:text="${gradeCode.displayName}"></option>
-            </select>
-            <div th:if="${#fields.hasGlobalErrors()}">
-                <p th:each="err : ${#fields.globalErrors}" th:text="${err}">글로벌 오류 메시지</p>
-            </div>
-            <button th:class="${#fields.hasGlobalErrors()} ? 'btn' : _" type="submit">회원가입</button>
-        </form>
+        <div>
+            <img th:src="@{/img/logo.png}">
+            <form th:action th:object="${user}" method="post">
+                <input type="text" placeholder="아이디" th:field="*{name}" required>
+                <input type="password" placeholder="비밀번호" th:field="*{password}" required>
+                <input type="password" placeholder="비밀번호 확인" th:field="*{pwCheck}" required>
+                <input type="email" placeholder="email" th:field="*{email}" required>
+                <select name="" id="">
+                    <option value="">등급</option>
+                    <option th:each="gradeCode : ${gradeCodes}" th:value="${gradeCode.code}" th:text="${gradeCode.displayName}"></option>
+                </select>
+                <div th:if="${#fields.hasGlobalErrors()}">
+                    <p th:each="err : ${#fields.globalErrors}" th:text="${err}" class="error_message">글로벌 오류 메시지</p>
+                </div>
+                <button th:class="${#fields.hasGlobalErrors()} ? 'btn' : _" type="submit">회원가입</button>
+            </form>
+        </div>
     </main>
     <div th:replace="~{/layout/footer::footerFragment}"></div>
 </body>
-</html>
