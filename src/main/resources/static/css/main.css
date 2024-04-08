@@ -1,32 +1,159 @@
-body {
-    background-color: #D9D9D9;
+body, html {
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    background-color: #EFEFEF;
+}
+
+header, footer {
+    display: flex;
+    justify-content: center;
+    background-color: #424242;
+    width: 100%;
+    height: 80px;
+}
+
+header div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 1280px;
+    max-width: 1920px;
+}
+
+header img {
+    width: 150px;
+    height: 70px;
+}
+
+header nav a {
+    color: white;
+    font-size: 16px;
+    font-weight: 700;
+    text-decoration: none;
+    margin-right: 18px;
+}
+
+/* main section starts */
+.main_container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.img_section {
+    margin: 0;
+    width: 100%;
+    height: 25vh;
+    margin-bottom: 3vh;
+    background-image: url("../img/banner.png");
+    background-size: cover;
+}
+
+.board_wrap {
+    display: flex;
+    justify: center;
+    align-items: center;
+}
+
+.board_wrap article {
+    background-color: #ffffff;
+    width: 270px;
+    height: 320px;
+    border-radius: 20px;
+    box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.2);
+    border: 1px solid grey;
+}
+
+article a {
+    cursor: pointer;
+}
+
+article img {
+    display: block;
+    width: 20px;
+    height: 20px;
 }
 
 h2 {
-    color: #FFFFFF;
-    font-size: 24px;
-    text-shadow: 10px 10px 30px 0 #00000040;
+    font-size: 18px;
+    margin: 15px 0;
 }
 
-.intro-main {
-    margin-bottom: 79px;
+article {
+    display: flex;
+    flex-direction: column;
 }
 
-.intro-main img {
-
+article > div:not(:nth-child(4)) { /*마지막 div 빼고 border-bottom 적용*/
+    border-bottom: 1px solid grey;
 }
 
-.card-main {
+article > div:nth-child(n+2) {
+    flex: 1;
+}
+
+article h2, span {
+    margin-left: 10px;
+}
+
+article > div:first-child {
     display: flex;
     justify-content: center;
-    align-content: center;
     align-items: center;
-    gap: 10px;
 }
 
-.btn-link-board {
-    background: none;
-    border: none;
-    padding: 0;
-    cursor: pointer;
+article h1 {
+    margin-right: 10px;
 }
+
+article span {
+    font-size: 12px;
+}
+
+.view_top, .comment_top{
+    margin-right: 50px;
+}
+/* main section ends */
+
+
+/* footer section starts */
+footer {
+    position: fixed;
+    bottom: 0;
+}
+
+footer div {
+    display: flex;
+    align-items: center;
+    width: 1280px;
+    max-width: 1920px;
+}
+footer span {
+    color: white;
+    font-size: 17px;
+    font-weight: 600;
+    margin-left: 580px;
+    margin-right: 240px;
+}
+
+footer ul {
+    display: flex;
+    flex-direction: row;
+    width: 250px;
+    list-style-type: none;
+}
+
+footer li {
+    margin-left: 15px;
+}
+
+footer img {
+    width: 50px;
+    height: 50px;
+}
+/* footer section ends */

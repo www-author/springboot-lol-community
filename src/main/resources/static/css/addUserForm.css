@@ -1,34 +1,29 @@
-/* main section starts */
+body, html {
+    padding: 0;
+    margin: 0;
+}
+
 .main_container {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 10vh;
+    justify-content: center;
+    width: 100%;
+    padding-top: 10vh;
 }
 
-.main_container img {
-    margin-bottom: 30px;
-    width: 500px;
-    height: 60px;
-}
-
-.main_container form {
+.main_container div {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.field-error {
-    border-color: #10221b;
-    color: #10221b;
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-p {
-    margin: 5px 0;
-    color: red;
-}
 
-.main_container form input {
+form input {
     margin-top: 15px;
     width: 280px;
     height: 45px;
@@ -38,15 +33,21 @@ p {
     box-sizing: border-box;
 }
 
-.main_container form select {
+form select {
     margin-top: 15px;
     width: 280px;
     height: 40px;
     padding-left: 10px;
     border: 1.5px solid black;
+    margin-bottom: 5px;
     font-size: 15px;
     color: grey;
     box-sizing: border-box;
+}
+
+.error_message {
+    margin: 5px 0px;
+    color: red;
 }
 
 form button {
@@ -68,35 +69,51 @@ form button {
     font-size: 16px;
     color: white;
 }
-/* main section ends */
+
+.main_container img {
+    margin-bottom: 30px;
+    width: 500px;
+    height: 60px;
+}
 
 /* footer section starts */
 footer {
     display: flex;
-    align-items: center;
     justify-content: center;
+    background-color: #424242;
+    width: 100%;
+    height: 80px;
     position: fixed;
     bottom: 0;
-    left: 0;
-    width: 100%;
-    margin: 0px;
-    height: 80px;
-    background-color: #424242;
 }
 
+footer div {
+    display: flex;
+    align-items: center;
+    width: 1280px;
+    max-width: 1920px;
+}
 footer span {
     color: white;
     font-size: 17px;
     font-weight: 600;
-    margin-left: 100px;
-    margin-right: 100px;
+    margin-left: 580px;
+    margin-right: 240px;
+}
+
+footer ul {
+    display: flex;
+    flex-direction: row;
+    width: 250px;
+    list-style-type: none;
+}
+
+footer li {
+    margin-left: 15px;
 }
 
 footer img {
-    position: fixed;
-    right: 105px;
-    bottom: 15px;
-    width: 250px;
+    width: 50px;
     height: 50px;
 }
 /* footer section ends */

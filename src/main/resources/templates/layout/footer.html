@@ -1,7 +1,22 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
     <footer th:fragment="footerFragment">
-        <span>copyright team15</span>
-        <img src="img/footer_img.png" th:src="@{/img/footer_img.png}" alt="">
+        <div class="footer_wrap">
+            <span>©copyright team15</span>
+            <ul>
+                <li>
+                    <a th:href="@{https://github.com/www-author}"><img th:src="@{/img/footer_img_dohan.png}" alt="github_link" sizes="60*60" style="border-radius: 100%;"></a>
+                </li>
+                <li>
+                    <a href=""><img th:src="@{/img/footer_img.png}" alt=""></a>
+                </li>
+                <li>
+                    <a href=""><img th:src="@{/img/footer_img.png}" alt=""></a>
+                </li>
+                <li>
+                    <a href=""><img th:src="@{/img/footer_img.png}" alt=""></a>
+                </li>
+            </ul>
+        </div>
     </footer>
 </html>

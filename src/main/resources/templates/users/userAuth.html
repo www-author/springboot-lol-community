@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>롤 정보 공유 커뮤니티</title>
+    <link rel="stylesheet" th:href="@{/css/userAuth.css}">
+</head>
+<body>
+    <div th:replace="~{/layout/header::headerFragment}"></div>
+    <main class="main_container">
+        <div class="main_wrap">
+            <div class="title">
+                <h1>사용자 권한 관리</h1>
+                <span>설정 > 권한 관리</span>
+            </div>
+            <div class="list_wrap">
+                <div class="user_list1">
+                    <span>사용자 목록</span>
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>사용자 ID</th>
+                            <th>사용자명</th>
+                            <th>가입일</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr onclick="">
+                            <th>jieun</th>
+                            <th>박지은</th>
+                            <th>2024-03-24</th>
+                        </tr>
+                        <tr>
+                            <th>jisu</th>
+                            <th>박지수</th>
+                            <th>2024-03-24</th>
+                        </tr>
+                        <tr>
+                            <th>dohoon</th>
+                            <th>이도훈</th>
+                            <th>2024-03-24</th>
+                        </tr>
+                        <tr>
+                            <th>hojun</th>
+                            <th>유호준</th>
+                            <th>2024-03-24</th>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <img th:src="@{/img/authBtn.png}" class="btnImage">
+                <div class="user_list2">
+                    <div class="list2_wrap">
+                        <span>사용자 조회</span>
+                        <button onclick="link()">저장</button>
+                    </div>
+                    <table>
+                        <tr>
+                            <td>사용자ID</td>
+                            <td>jieun</td>
+                            <td>이름</td>
+                            <td>박지은</td>
+                        </tr>
+                        <tr>
+                            <td>등급</td>
+                            <td><select name="" id="">
+                                <option value="">중수</option>
+                            </select></td>
+                            <td>가입일시</td>
+                            <td>2024.03.24 15:00</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+    <div th:replace="~{/layout/footer::footerFragment}"></div>
+    <script>
+        function link() {
+            var url = "/board/main";
+            window.location.href = url;
+        }
+    </script>
+</body>
+</html>
