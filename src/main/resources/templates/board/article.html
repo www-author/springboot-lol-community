@@ -10,10 +10,7 @@
   <th:block>
     <p><span>제목</span><span id="title-article">[[${article.title}]]</span></p>
     <p><span>작성자</span><span id="writer-article">[[${article.user.name}]]</span></p>
-    <button id="btn-article-like" th:class="${articleIsLike}?'article-like-cancel':'article-like'">
-      <span id='count-article-like' th:text="${article.getLikeCount()}"></span>
-      <img id="icon-article-like" th:src="${articleIsLike}?'/icon/thumb-up-fill.png':'/icon/thumb-up.png'">
-    </button>
+    <p><span class='count-article-like' th:text="${article.getLikeCount()}"></span></p>
     <p><span>작성일시</span><span id="created-at-article" th:text="${#temporals.format(article.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></span></p>
     <div th:if="${article.user.id} == ${user_id}">
       <a th:href="@{/board/update}" id="btn-modify-article"><button>수정</button></a>
@@ -21,7 +18,10 @@
     </div>
     <p>내용</p>
     <textarea id="content-article" readonly>[[${article.content}]]</textarea>
-    <button id="btn-like-article"><span class="like-count-article">[[${article.likeCount}]]</span>좋아요</button>
+    <button id="btn-article-like" th:class="${articleIsLike}?'article-like-cancel':'article-like'">
+      <span class='count-article-like' th:text="${article.getLikeCount()}"></span>
+      <img id="icon-article-like" th:src="${articleIsLike}?'/icon/thumb-up-fill.png':'/icon/thumb-up.png'">
+    </button>
   </th:block>
 
 <!--  댓글 영역 시작 -->
@@ -133,7 +133,7 @@
               console.log("글 좋아요 성공" + result)
               $("#icon-article-like").attr("src", "/icon/thumb-up-fill.png");
               $("#btn-article-like").attr('class',"article-like-cancel");
-              $("#count-article-like").html(result);
+              $(".count-article-like").html(result);
             }
           })
         }
@@ -151,7 +151,7 @@
               console.log("글 좋아요 취소 성공" + result)
               $("#icon-article-like").attr("src", "/icon/thumb-up.png");
               $("#btn-article-like").attr('class',"article-like");
-              $("#count-article-like").html(result);
+              $(".count-article-like").html(result);
             }
           })
         }
