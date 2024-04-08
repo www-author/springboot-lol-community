@@ -80,16 +80,15 @@
       <!--  댓글 페이지 목록-->
       <ul id="comment-page-list">
         <li th:if="${commentResult.prev}">
-          <a class="page-list-item" id="page-prev" th:href="@{/board/{board_id}(board_id=${article.id}, page=${commentResult.start - 1})}"
-             tabindex="-1"><</a>
+          <button class="page-list-item" id="comment-page-prev" tabindex="-1"><</button>
         </li>
 
         <li th:each="page : ${commentResult.pageList}">
-          <a class="page-number page-list-item" th:href="@{/board/{board_id}(board_id=${article.id}, page=${page})}" th:text="${page}"></a>
+          <button class="comment-page-number page-list-item" th:attr="data-page=${page}" th:text="${page}"></button>
         </li>
 
         <li th:if="${commentResult.next}">
-          <a class="page-list-item" id="page-next" th:href="@{/board/{board_id}(board_id=${article.id}, page=${commentResult.end + 1})}">></a>
+          <button class="page-list-item" id="comment-page-next" >></button>
         </li>
       </ul>
     </div>
@@ -180,7 +179,7 @@
               console.log("댓글 등록 성공")
               $('#input-comment').val(''); // 입력 필드 비우기
             }
-          }).done(loadComment());
+          }).done(loadComment);
         });
 
         //토글 입력폼 나타내기 버튼
@@ -213,7 +212,7 @@
               $("#form-reply").css("display","none").appendTo("body");
               $("#input-reply").val("");
             }
-          }).done(loadComment());
+          }).done(loadComment);
         }
 
         $(document).on('click', '#btn-reply-submit', writeReply);
@@ -248,7 +247,7 @@
               $("#form-modify").css("display","none").appendTo("body");
               $("#input-modify").val("");
             }
-          }).done(loadComment());
+          }).done(loadComment);
         }
 
         $(document).on('click', '#btn-modify-submit', modifyComment);
@@ -269,7 +268,7 @@
             success: function (){
               console.log("삭제 성공")
             }
-          }).done(loadComment());
+          }).done(loadComment);
         }
 
         $(document).on('click', '.btn-delete', deleteComment);
@@ -287,7 +286,7 @@
             url: '/comment/list',
             method: 'get',
             data: loadRequestInfo,
-            success: function (fragment) {
+            success: function () {
               console.log("새로고침 성공");
             }
           })
@@ -341,7 +340,6 @@
             success: function(data){
               console.log("좋아요 취소 성공" + data);
               $('[data-comment-id='+comment_id+']').children('.icon-like').attr("src", "/icon/thumb-up.png");
-              // $(this).children('.icon-like').attr("src", "/icon/thumb-up.png");
               $(".count-like-"+comment_id).html(data);
               $('[data-comment-id='+comment_id+']').attr('class',"btn-like");
             }
@@ -353,6 +351,71 @@
         $(document).on('click', '.btn-like-cancel', subLike);
 
 
+        function pageMove() {
+
+          var loadRequestInfo = {
+            board_id : board_id,
+            page : $(this).data("page")
+          };
+
+          $.ajax({
+            url: '/comment/list',
+            method: 'get',
+            data: loadRequestInfo,
+            success: function () {
+              console.log("페이지 이동 성공");
+            }
+          })
+          .done(function (fragment){
+            $('#all-comment').replaceWith(fragment);
+          });
+        }
+
+        $(document).on("click", ".comment-page-number", pageMove)
+
+        // 이전 페이지
+        function prevMove() {
+          var loadRequestInfo = {
+            board_id : board_id,
+            page : [[${commentResult.start - 1}]]
+          };
+
+          $.ajax({
+            url: '/comment/list',
+            method: 'get',
+            data: loadRequestInfo,
+            success: function () {
+              console.log("이전페이지 이동 성공");
+            }
+          })
+          .done(function (fragment){
+            $('#all-comment').replaceWith(fragment);
+          });
+        }
+
+        $(document).on("click", "#comment-page-prev", prevMove)
+
+        // 다음 페이지
+        function nextMove() {
+          var loadRequestInfo = {
+            board_id : board_id,
+            page : [[${commentResult.end + 1}]]
+          };
+
+          $.ajax({
+            url: '/comment/list',
+            method: 'get',
+            data: loadRequestInfo,
+            success: function () {
+              console.log("다음페이지 이동 성공");
+            }
+          })
+          .done(function (fragment){
+            $('#all-comment').replaceWith(fragment);
+          });
+        }
+
+        $(document).on("click", "#comment-page-next", nextMove)
 
       })
     </script>
