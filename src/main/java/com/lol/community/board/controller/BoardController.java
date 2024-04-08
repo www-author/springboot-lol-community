@@ -18,6 +18,7 @@ import com.lol.community.user.service.UserService;
 import java.util.NoSuchElementException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -55,17 +56,23 @@ public class BoardController {
 
     @GetMapping("/report")
     public String showArticlesOfReport(
-            @PageableDefault(
-                    size = 15,
-                    sort = "createdAt",
-                    direction = Sort.Direction.DESC
-            ) Pageable pageable,
-            @ModelAttribute BoardSearchRequest request,
-            @Login SessionValue sessionValue,
-            Model model
+        @PageableDefault(
+            size = 15,
+            sort = "createdAt",
+            direction = Sort.Direction.DESC
+        ) Pageable pageable,
+        @ModelAttribute BoardSearchRequest request,
+        @Login SessionValue sessionValue,
+        Model model
     ) {
         addModelAttributeOfUserInfo(sessionValue, model);
-        addModelAttributesOfBoardList(BoardType.REPORT.name(), request, model, pageable);
+        addModelAttributesOfBoardList(
+            BoardType.REPORT.name(),
+            request,
+            sessionValue.getUserId(),
+            model,
+            pageable
+        );
         return "board/articles";
     }
 
@@ -81,7 +88,7 @@ public class BoardController {
             Model model
     ) {
         addModelAttributeOfUserInfo(sessionValue, model);
-        addModelAttributesOfBoardList(BoardType.FREE.name(), request, model, pageable);
+        addModelAttributesOfBoardList(BoardType.FREE.name(), request, sessionValue.getUserId(), model, pageable);
         return "board/articles";
     }
 
@@ -135,17 +142,20 @@ public class BoardController {
     }
 
     public void addModelAttributesOfBoardList(
-            String boardType,
-            BoardSearchRequest request,
-            Model model,
-            Pageable pageable
+        String boardType,
+        BoardSearchRequest request,
+        Integer userId,
+        Model model,
+        Pageable pageable
     ) {
         if (BoardType.FREE.name().equals(boardType)) {
             model.addAttribute("grades", getGrades());
         }
         List<CategoryResponse> categoryResponses = categoryService.findCategoriesByBoardType(boardType);
         model.addAttribute("categories", categoryResponses);
-        model.addAttribute("articles", boardService.findPageByBoardType(boardType, pageable, request));
+
+        Page<BoardResponse> boardResponses = boardService.findPageByBoardType(boardType, pageable, request, userId);
+        model.addAttribute("articles", boardResponses);
         model.addAttribute("boardType", boardType);
         model.addAttribute("selectedType", request.getSelectedCategories());
     }

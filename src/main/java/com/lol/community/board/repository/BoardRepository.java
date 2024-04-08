@@ -22,15 +22,6 @@ public interface BoardRepository extends JpaRepository<Board, Integer> {
     );
 
     List<Board> findAllByBoardTypeAndIsDeletedIsFalseOrderByViewCountDesc(String boardType, PageRequest pageRequest);
-    Page<Board> findAllByBoardTypeAndIsDeletedIsFalse(String boardType, Pageable pageable);
-
-    Page<Board> findAllByBoardTypeAndTitleContainingIgnoreCaseAndIsDeletedIsFalse(
-            String boardType,
-            String keyword,
-            Pageable pageable
-    );
-
-    List<Board> findAllByBoardTypeAndIsDeletedIsFalseOrderByViewCountDesc(String boardType, PageRequest pageRequest);
 
     @Query(
             "select board " +
@@ -58,6 +49,5 @@ public interface BoardRepository extends JpaRepository<Board, Integer> {
             String keyword,
             Pageable pageable
     );
-
 
 }

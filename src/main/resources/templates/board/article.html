@@ -9,7 +9,7 @@
 <body>
   <th:block>
     <p><span>제목</span><span id="title-article">[[${article.title}]]</span></p>
-    <p><span>작성자</span><span id="writer-article">[[${article.user.id}]]</span></p>
+    <p><span>작성자</span><span id="writer-article">[[${article.user.name}]]</span></p>
     <button id="btn-article-like" th:class="${articleIsLike}?'article-like-cancel':'article-like'">
       <span id='count-article-like' th:text="${article.getLikeCount()}"></span>
       <img id="icon-article-like" th:src="${articleIsLike}?'/icon/thumb-up-fill.png':'/icon/thumb-up.png'">

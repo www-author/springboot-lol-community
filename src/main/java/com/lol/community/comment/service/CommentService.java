@@ -25,16 +25,5 @@ public interface CommentService {
 
   List<CommentResponseDTO> getBestComment(Integer board_id);
 
-  default List<BoardMainResponse> findAllCommentByGroupByWithBoard(String boardType, Integer limit) {
-        return commentRepository.findGroupByCommentOfBoard(boardType, PageRequest.of(0, limit))
-                .stream()
-                .map(view -> BoardMainResponse.builder()
-                        .boardId(view.getBoardId())
-                        .title(view.getTitle())
-                        .content(view.getContent())
-                        .writer(view.getWriter())
-                        .totalCount(view.getTotalCount())
-                        .build())
-                .toList();
-    }
+  List<BoardMainResponse> findAllCommentByGroupByWithBoard(String boardType, Integer limit);
 }
