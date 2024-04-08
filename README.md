@@ -474,5 +474,11 @@
 ## 5. 화면 구성
 - :link: [피그마 링크](https://www.figma.com/file/Ttj3FgTYKYZbHHF5fWPYOZ/%EB%A1%A4-%EC%A0%95%EB%B3%B4-%EC%BB%A4%EB%AE%A4%EB%8B%88%ED%8B%B0?type=design&node-id=0-1&mode=design&t=HWHVkapKhksFJNS5-0)
 
-## 6. 프로젝트 운영 관리 
+## 6. API 설계서 
+- :link: [API 설계 문서](https://www.notion.so/oreumi/API-19069c3d780c4b65b5d11cb6297b2102)
+<img src="https://github.com/www-author/springboot-lol-community/assets/148677085/b89d3c76-0999-42b2-887e-81c4154c6184" width="700"  alt="api설계서">
+
+
+
+## 7. 프로젝트 운영 관리 
 - :link: [노션 링크 참고](https://www.notion.so/oreumi/15-b6ded3552c1441279f51d1f049f63d8d)
