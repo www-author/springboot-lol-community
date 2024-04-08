@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
     <header th:fragment="headerFragment">
-        <img src="img/logo_top.png" th:src="@{/img/logo_top.png}" alt="logo">
+        <img th:src="@{/img/logo_top.png}" alt="logo">
         <nav>
             <a th:href="@{/board/main}">홈</a>
             <a th:href="@{/board/free}">자유 게시판</a>
-            <a th:href="@{/board/free}">Report</a>
+            <a th:href="@{/board/report}">Report</a>
             <a href="">설정</a>
             <!--TODO 로그인 BUG-> 추후 활성화 예정 -->
             <!--<a th:href="@{/users/edit}" th:text="${userEditForm.name} + '님'"></a>-->
