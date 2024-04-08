@@ -12,11 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface BoardService {
-    Page<BoardResponse> findPageByBoardType(
-            String boardType,
-            Pageable pageable,
-            BoardSearchRequest request
-    );
+    Page<BoardResponse> findPageByBoardType(String boardType, Pageable pageable, BoardSearchRequest request, Integer userId);
 
     Board save(BoardRequest request);
 
@@ -32,4 +28,9 @@ public interface BoardService {
 
     List<BoardMainResponse> findTopByCommentCount(String boardType, Integer limit);
     Map<String, List<BoardMainResponse>> getModelOfTopByMain(String boardType, Integer limit);
+    Page<Board> findAll(String boardType, Pageable pageable);
+    Page<Board> findAllByTitle(String boardType, String keyword, Pageable pageable);
+
+    Page<Board> findAllByCategoryId(String boardType, Integer category, Pageable pageable);
+    Page<Board> findAllByCategoryIdAndTitle(String boardType, Integer category, String keyword, Pageable pageable);
 }

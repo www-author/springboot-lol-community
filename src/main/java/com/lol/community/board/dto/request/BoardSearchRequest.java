@@ -28,6 +28,10 @@ public class BoardSearchRequest {
         return grades == 0;
     }
 
+    public boolean isExistGrade() {
+        return grades != 0;
+    }
+
     public boolean isEmptyKeyword() {
         return Strings.isBlank(keyword);
     }

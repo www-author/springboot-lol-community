@@ -5,6 +5,10 @@ import com.lol.community.comment.domain.Comment;
 import com.lol.community.comment.dto.CommentPageResponseDTO;
 import com.lol.community.comment.dto.CommentRequestDTO;
 import com.lol.community.comment.dto.CommentResponseDTO;
+import com.lol.community.comment.repository.CommentRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+
 import java.util.List;
 
 public interface CommentService {
@@ -21,5 +25,16 @@ public interface CommentService {
 
   List<CommentResponseDTO> getBestComment(Integer board_id);
 
-  List<BoardMainResponse> findAllCommentByGroupByWithBoard(String boardType, Integer limit);
+  default List<BoardMainResponse> findAllCommentByGroupByWithBoard(String boardType, Integer limit) {
+        return commentRepository.findGroupByCommentOfBoard(boardType, PageRequest.of(0, limit))
+                .stream()
+                .map(view -> BoardMainResponse.builder()
+                        .boardId(view.getBoardId())
+                        .title(view.getTitle())
+                        .content(view.getContent())
+                        .writer(view.getWriter())
+                        .totalCount(view.getTotalCount())
+                        .build())
+                .toList();
+    }
 }

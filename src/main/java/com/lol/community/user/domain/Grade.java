@@ -22,5 +22,13 @@ public enum Grade {
         return Arrays.stream(Grade.class.getEnumConstants())
                 .filter(value -> !value.name().contains("ADMIN"))
                 .toList();
+
+    }
+
+    public static List<String> findAllAccessGradeById(Integer gradeId) {
+            return Arrays.stream(Grade.class.getEnumConstants())
+                    .filter(grade -> grade.id <= gradeId)
+                    .map(Enum::name)
+                    .toList();
     }
 }
