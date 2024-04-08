@@ -7,15 +7,17 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
+@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class LikeReactionCommentDTO {
-  private Long user_id;
-  private Long comment_id;
+  private Integer user_id;
+  private Integer comment_id;
 
   @Builder
-  public LikeReactionCommentDTO(Long user_id, Long comment_id) {
+  public LikeReactionCommentDTO(Integer user_id, Integer comment_id) {
     this.user_id = user_id;
     this.comment_id = comment_id;
   }

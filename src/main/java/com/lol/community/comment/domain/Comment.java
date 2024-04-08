@@ -22,7 +22,8 @@ import org.hibernate.annotations.DynamicInsert;
 public class Comment extends BaseEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+  @Column(name = "id", updatable = false)
+  private Integer id;
 
   @Column(nullable = false)
   private String content;
@@ -31,6 +32,7 @@ public class Comment extends BaseEntity {
   @Column(name="like_count")
   private Long likeCount;
 
+  @ColumnDefault("0")
   @Column(name="co_depth")
   private Integer co_depth;
 
@@ -60,7 +62,7 @@ public class Comment extends BaseEntity {
   private List<LikeReactionComment> likeReactionComments = new ArrayList<>();
 
   @Builder
-  public Comment(Long id, String content, Integer co_depth, Integer co_order, Board board, User user, Comment parent){
+  public Comment(Integer id, String content, Integer co_depth, Integer co_order, Board board, User user, Comment parent){
     this.id = id;
     this.content = content;
     this.co_depth = co_depth;

@@ -1,6 +1,5 @@
 package com.lol.community.comment.dto;
 
-import com.lol.community.comment.domain.Comment;
 import java.util.List;
 import java.util.stream.IntStream;
 import lombok.AccessLevel;
@@ -21,8 +20,12 @@ public class CommentPageResponseDTO {
   private boolean prev, next;
   private List<Integer> pageList;
 
-  public CommentPageResponseDTO(Page<Comment> result){
-   dtoList = result.stream().map(e -> CommentResponseDTO.entityToDTO(e)).toList();
+  public CommentPageResponseDTO(Page<CommentResponseDTO> result, Integer user_id){
+   dtoList = result.stream().map(e -> {
+     e.checkIsAuth(user_id);
+     e.checkIsLike(user_id);
+     return e;
+   }).toList();
    totalPage = result.getTotalPages();
    makePageList(result.getPageable());
   }

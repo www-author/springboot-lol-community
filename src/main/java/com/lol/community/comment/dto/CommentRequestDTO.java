@@ -13,16 +13,16 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CommentRequestDTO {
-  private Long id;
-  private Long user_id;
-  private Long board_id;
-  private Long parent_id;
+  private Integer id;
+  private Integer user_id;
+  private Integer board_id;
+  private Integer parent_id;
   private String content;
   private Integer depth;
   private Integer order;
 
   @Builder
-  public CommentRequestDTO(Long id, Long user_id, Long board_id, String content){
+  public CommentRequestDTO(Integer id, Integer user_id, Integer board_id, String content){
     this.id = id;
     this.user_id = user_id;
     this.board_id = board_id;
@@ -30,7 +30,7 @@ public class CommentRequestDTO {
     this.depth = 0;
   }
 
-  public void updateParentId(Long parent_id){
+  public void updateParentId(Integer parent_id){
     this.parent_id = parent_id;
   }
 

@@ -17,8 +17,8 @@ public class CommentControllerTest {
 
   @Test
   public void writeCommentTest(){
-    User user = User.builder().id(1L).build();
-    Board board = Board.builder().id(2L).build();
+    User user = User.builder().id(1).build();
+    Board board = Board.builder().id(2).build();
 
 //    CommentRequestDTO parent = CommentRequestDTO.builder()
 //        .user_id(1L)
@@ -28,10 +28,10 @@ public class CommentControllerTest {
 //
 //    commentService.writeComment(parent);
 
-    IntStream.rangeClosed(1,100).forEach(e->{
+    IntStream.rangeClosed(1,30).forEach(e->{
       CommentRequestDTO comment = CommentRequestDTO.builder()
-          .user_id(1L)
-          .board_id(2L)
+          .user_id(1)
+          .board_id(2)
           .content("테스트" + e)
           .build();
       commentService.writeComment(comment);
@@ -40,7 +40,7 @@ public class CommentControllerTest {
 
   @Test
   public void getCommentListTest(){
-    Long boardId = 2L;
+    Integer boardId = 2;
 
 //    List<CommentResponseDTO> list = commentService.getCommentList(boardId);
 
@@ -49,7 +49,7 @@ public class CommentControllerTest {
 
   @Test
   public void updateCommentTest(){
-    Long commentId = 4L;
+    Integer commentId = 4;
 
     Comment comment = commentService.getComment(commentId);
     System.out.println(comment.getContent());
@@ -69,7 +69,7 @@ public class CommentControllerTest {
 
   @Test
   public void deleteTest(){
-    Long commentId = 4L;
+    Integer commentId = 4;
 
     commentService.deleteComment(commentId);
   }

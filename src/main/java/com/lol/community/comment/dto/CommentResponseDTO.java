@@ -5,6 +5,7 @@ import com.lol.community.comment.domain.Comment;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,34 +15,55 @@ import lombok.ToString;
 @Getter
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class CommentResponseDTO {
-  private Long id;
+  private Integer id;
   private String userName;
+  private Integer user_id;
   private String content;
   private Integer co_depth;
   private Integer co_order;
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
-  private LocalDateTime create_at;
+  private LocalDateTime created_at;
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
   private LocalDateTime updated_at;
+  private Integer like_user_id;
   private Long likeCount;
+  private Boolean isLike = false;
+  private Boolean isAuth = false;
   @Setter
   private List<CommentResponseDTO> children;
 
   @Builder
-  public CommentResponseDTO(Long id, String userName, String content, Integer co_depth, Integer co_order, LocalDateTime create_at,
-      LocalDateTime updated_at,Long likeCount) {
+  public CommentResponseDTO(Integer id, String userName, Integer user_id, String content,
+      Integer co_depth, Integer co_order, LocalDateTime create_at, LocalDateTime updated_at,
+      Integer like_user_id, Long likeCount) {
+    this.id = id;
+    this.userName = userName;
+    this.user_id = user_id;
+    this.content = content;
+    this.co_depth = co_depth;
+    this.co_order = co_order;
+    this.created_at = create_at;
+    this.updated_at = updated_at;
+    this.like_user_id = like_user_id;
+    this.likeCount = likeCount;
+  }
+
+  @Builder
+  public CommentResponseDTO(Integer id, String userName, String content, Integer co_depth,
+      Integer co_order, LocalDateTime create_at, LocalDateTime updated_at, Long likeCount) {
     this.id = id;
     this.userName = userName;
     this.content = content;
     this.co_depth = co_depth;
     this.co_order = co_order;
-    this.create_at = create_at;
+    this.created_at = create_at;
     this.updated_at = updated_at;
     this.likeCount = likeCount;
   }
 
-  public static CommentResponseDTO entityToDTO(Comment comment){
+  public static CommentResponseDTO entityToDTO(Comment comment, Integer user_id){
 
     CommentResponseDTO commentResponseDTO = CommentResponseDTO.builder()
         .id(comment.getId())
@@ -54,13 +76,34 @@ public class CommentResponseDTO {
         .updated_at(comment.getUpdatedAt())
         .build();
 
-//    if(comment.getChildren().size() > 0){
-//      List<CommentResponseDTO> childrenDTO = comment.getChildren().stream().map(e->entityToDTO(e)).toList();
-//
-//      commentResponseDTO.setChildren(childrenDTO);
-//
-//    }
+    if(comment.getUser().getId() == user_id){
+      commentResponseDTO.updateIsAuth(true);
+    }
 
     return commentResponseDTO;
+  }
+
+  public void checkIsLike(Integer user_id){
+    if(like_user_id == user_id){
+      isLike = true;
+    }else{
+      isLike = false;
+    }
+  }
+
+  public void checkIsAuth(Integer user_id){
+    if(this.user_id == user_id){
+      isAuth = true;
+    }else{
+      isAuth = false;
+    }
+  }
+
+  public void updateIsLike(boolean isLike){
+    this.isLike = isLike;
+  }
+
+  public void updateIsAuth(boolean isAuth){
+    this.isAuth = isAuth;
   }
 }

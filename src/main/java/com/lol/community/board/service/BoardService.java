@@ -2,33 +2,34 @@ package com.lol.community.board.service;
 
 import com.lol.community.board.domain.Board;
 import com.lol.community.board.dto.request.BoardRequest;
-import com.lol.community.board.repository.BoardRepository;
-import jakarta.transaction.Transactional;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import com.lol.community.board.dto.request.BoardSearchRequest;
+import com.lol.community.board.dto.response.BoardMainResponse;
+import com.lol.community.board.dto.response.BoardResponse;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
-@Service
-@RequiredArgsConstructor
-public class BoardService {
-    private final BoardRepository boardRepository;
+import java.util.List;
+import java.util.Map;
 
-    public Board save(BoardRequest request) {
-        return boardRepository.save(request.toEntity());
-    }
+public interface BoardService {
+    Page<BoardResponse> findPageByBoardType(
+            String boardType,
+            Pageable pageable,
+            BoardSearchRequest request
+    );
 
-    public Board findById(Long id) {
-        return boardRepository
-                .findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 존재하지 않습니다. (id : " + id + ")"));
-    }
+    Board save(BoardRequest request);
 
-    @Transactional
-    public Board modify(
-            Long id,
-            BoardRequest request
-    ) {
-        Board board = findById(id);
-        board.update(request);
-        return board;
-    }
+    Board findById(Integer id);
+
+    Board modify(Integer id, BoardRequest request);
+
+    void deleteById(Integer id);
+
+    List<BoardMainResponse> findTopByViewCount(String boardType, Integer limit);
+
+    List<BoardMainResponse> findTopByLikeCount(String boardType, Integer limit);
+
+    List<BoardMainResponse> findTopByCommentCount(String boardType, Integer limit);
+    Map<String, List<BoardMainResponse>> getModelOfTopByMain(String boardType, Integer limit);
 }

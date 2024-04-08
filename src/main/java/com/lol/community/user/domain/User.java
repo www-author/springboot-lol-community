@@ -2,23 +2,26 @@ package com.lol.community.user.domain;
 
 import com.lol.community.global.BaseEntity;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 public class User extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Long id;
+    private Integer id;
 
     @Column(nullable = false, length = 100)
     private String name;
 
-    @Column(nullable = false, length = 100)
+    @Column(nullable = false, length = 100, unique = true)
     private String email;
 
     @Column(nullable = false, length = 100)
@@ -27,8 +30,7 @@ public class User extends BaseEntity {
     @Column(nullable = false, length = 10)
     private String grade;
 
-    @Builder
-    public User (Long id) {
-        this.id = id;
+    public void toEncodedPassword(String encodedPassword) {
+        this.password = encodedPassword;
     }
 }

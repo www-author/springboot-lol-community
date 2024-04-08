@@ -5,10 +5,9 @@ import com.lol.community.reaction.domain.LikeReactionComment;
 import com.lol.community.user.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface LikeReactionCommentRepository extends JpaRepository<LikeReactionComment,Long> {
+public interface LikeReactionCommentRepository extends JpaRepository<LikeReactionComment, Integer> {
 
-  LikeReactionComment findByUserIdAndCommentId(Long user_id, Long comment_id);
+//  LikeReactionComment findByUserIdAndCommentId(Integer user_id, Integer comment_id);
 
-  LikeReactionComment findByUserAndComment(User user, Comment comment);
-
+  LikeReactionComment findByUserIdAndCommentId(Integer user_id, Integer comment_id);
 }

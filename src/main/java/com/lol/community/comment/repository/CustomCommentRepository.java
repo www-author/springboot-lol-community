@@ -8,7 +8,7 @@ import org.springframework.data.domain.Pageable;
 
 public interface CustomCommentRepository {
 
-  Page<Comment> findAllByBoardId(Long board_id, Pageable pageable);
+  Page<CommentResponseDTO> findAllByBoardId(Integer board_id, Pageable pageable);
 
-  List<CommentResponseDTO> findBestComment(Long board_id);
+  List<CommentResponseDTO> findBestComment(Integer board_id);
 }

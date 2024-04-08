@@ -1,6 +1,8 @@
 package com.lol.community.comment.repository;
 
 import static com.lol.community.comment.domain.QComment.*;
+import static com.lol.community.reaction.domain.QLikeReactionComment.*;
+import static com.lol.community.user.domain.QUser.user;
 
 import com.lol.community.comment.domain.Comment;
 import com.lol.community.comment.dto.CommentResponseDTO;
@@ -22,7 +24,7 @@ public class CustomCommentRepositoryImpl implements CustomCommentRepository{
   private final JPAQueryFactory jpaQueryFactory;
 
   @Override
-  public Page<Comment> findAllByBoardId(Long board_id, Pageable pageable){
+  public Page<CommentResponseDTO> findAllByBoardId(Integer board_id, Pageable pageable){
 //    return jpaQueryFactory.selectFrom(comment)
 //        .leftJoin(comment.parent)
 //        .fetchJoin()
@@ -31,8 +33,23 @@ public class CustomCommentRepositoryImpl implements CustomCommentRepository{
 //            comment.parent.id.asc().nullsFirst(),
 //            comment.createdAt.asc()
 //        ).fetch();
-
-    List<Comment> result = jpaQueryFactory.selectFrom(comment)
+//    this.id = id;
+//    this.userName = userName;
+//    this.content = content;
+//    this.co_depth = co_depth;
+//    this.co_order = co_order;
+//    this.create_at = create_at;
+//    this.updated_at = updated_at;
+//    this.like_id = like_id;
+//    this.likeCount = likeCount;
+    List<CommentResponseDTO> test = jpaQueryFactory.select(Projections.constructor(
+        CommentResponseDTO.class,
+        comment.id, user.name, user.id, comment.content, comment.co_depth, comment.co_order, comment.createdAt, comment.updatedAt,
+        likeReactionComment.user.id, comment.likeCount))
+        .from(comment)
+        .leftJoin(likeReactionComment)
+        .on(comment.id.eq(likeReactionComment.comment.id))
+        .leftJoin(user).on(comment.user.id.eq(user.id))
         .where(comment.board.id.eq(board_id))
         .orderBy(
             comment.co_order.asc(),
@@ -42,15 +59,27 @@ public class CustomCommentRepositoryImpl implements CustomCommentRepository{
         .limit(pageable.getPageSize())
         .fetch();
 
+//    List<Comment> result = jpaQueryFactory.selectFrom(comment)
+//        .leftJoin(likeReactionComment)
+//        .fetchJoin()
+//        .where(comment.board.id.eq(board_id))
+//        .orderBy(
+//            comment.co_order.asc(),
+//            comment.co_depth.asc()
+//        )
+//        .offset(pageable.getOffset())
+//        .limit(pageable.getPageSize())
+//        .fetch();
+
     JPQLQuery<Comment> count = jpaQueryFactory.select(comment)
         .from(comment)
         .where(comment.board.id.eq(board_id));
 
-    return PageableExecutionUtils.getPage(result, pageable, count::fetchCount);
+    return PageableExecutionUtils.getPage(test, pageable, count::fetchCount);
   }
 
   @Override
-  public List<CommentResponseDTO> findBestComment(Long board_id){
+  public List<CommentResponseDTO> findBestComment(Integer board_id){
     return jpaQueryFactory.select(Projections.constructor(CommentResponseDTO.class,
             comment.id,
             comment.user.name,
@@ -65,6 +94,6 @@ public class CustomCommentRepositoryImpl implements CustomCommentRepository{
         .where(comment.board.id.eq(board_id)
             .and(comment.likeCount
                 .eq(JPAExpressions.select(comment.likeCount.max()).from(comment)
-        )).and(comment.likeCount.goe(1))).orderBy(comment.likeCount.asc()).limit(2).fetch();
+        )).and(comment.likeCount.goe(5))).orderBy(comment.likeCount.asc()).limit(2).fetch();
   }
 }

@@ -1,0 +1,32 @@
+body {
+    background-color: #D9D9D9;
+}
+
+h2 {
+    color: #FFFFFF;
+    font-size: 24px;
+    text-shadow: 10px 10px 30px 0 #00000040;
+}
+
+.intro-main {
+    margin-bottom: 79px;
+}
+
+.intro-main img {
+
+}
+
+.card-main {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.btn-link-board {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+}

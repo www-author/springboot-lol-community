@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
   <meta charset="UTF-8">
   <title>Title</title>
@@ -12,8 +13,7 @@
 <!--  댓글 입력-->
   <th:block>
     <form id="form-comment">
-      <!--  유저 코드 머지 후 userid 세션에서 받아오도록 수정해야 함    -->
-      <input type="hidden" id="input-user-id" th:value="1">
+      <input type="hidden" id="input-user-id" th:value="${user_id}">
       <input type="hidden" id="input-board-id" th:value="${resultMap.boardId}">
       <input type="hidden" id="input-comment-page" th:value="${resultMap.page}">
       <input id="input-comment" rows="50" type="text" placeholder="댓글을 입력하세요.">
@@ -21,13 +21,14 @@
     </form>
   </th:block>
 
+<!--  모든 댓글-->
   <th:block id="all-comment">
     <!--  베스트 댓글-->
     <ul th:if="${resultMap.page == 1}" id="best-comment">
       <li th:each="best : ${bestCommentList}">
         <div>
           <p class="comment-writer" th:text="${best.userName}"></p>
-          <p class="comment-create" th:text="${best.create_at}"></p>
+          <p class="comment-create" th:text="${#temporals.format(best.created_at, 'yyyy-MM-dd HH:mm:ss')}"></p>
           <button class="btn-like" th:attr="data-comment-id=${best.id}">
             <span>[[${best.likeCount}]]</span>
             좋아요
@@ -36,21 +37,22 @@
         <textarea th:text="${best.content}" readonly></textarea>
       </li>
     </ul>
+
   <!--  댓글 목록-->
     <ul id="comment-list">
       <li class="list-item" th:each="comment : ${commentResult.dtoList}" th:attr="data-depth=${comment.co_depth}, data-order=${comment.co_order}">
         <input class="comment-id" type="hidden" name="comment-id" th:value="${comment.id}">
         <div>
           <p class="comment-writer" th:text="${comment.userName}"></p>
-          <p class="comment-create" th:text="${comment.create_at}"></p>
-          <div>
+          <p class="comment-create" th:text="${#temporals.format(comment.created_at, 'yyyy-MM-dd HH:mm:ss')}"></p>
+          <div sec:authorize-expr="isAuthenticated()" or th:unless="${#strings.equals(comment.getUser_id(),user_id)}">
             <button class="btn-modify">수정</button>
             <button class="btn-delete">삭제</button>
           </div>
           <button class="btn-reply-toggle">답글</button>
-          <button class="btn-like" th:attr="data-comment-id=${comment.id}">
+          <button th:class="${comment.getIsLike()}?'btn-like-cancel':'btn-like'" th:attr="data-comment-id=${comment.id}">
             <span th:class="'count-like-' + ${comment.id}">[[${comment.likeCount}]]</span>
-            <img class="icon-like" src="/icon/thumb-up.png">
+            <img class="icon-like" th:src="${comment.getIsLike()}?'/icon/thumb-up-fill.png':'/icon/thumb-up.png'" th:attr="isLike=${comment.getIsLike()}">
           </button>
           <textarea th:text="${comment.content}"></textarea>
         </div>
@@ -214,7 +216,6 @@
 
       $(document).on('click', '.btn-delete', deleteComment);
 
-
       //새로고침
       function loadComment(request) {
         var loadRequestInfo = {
@@ -244,12 +245,11 @@
       });
 
       //좋아요 버튼 (아이콘 모양 변하는거 추가해야함, 세션에서 유저 아이디도 받아야 함)
-      function modifyLike (){
+      function addLike (){
         var comment_id = $(this).data('comment-id');
 
         var likeRequest ={
-          comment_id : comment_id,
-          user_id : 1
+          comment_id : comment_id
         }
 
         $.ajax({
@@ -260,14 +260,37 @@
           dataType : "json",
           success: function(data){
             console.log("좋아요 성공" + data);
-            $(this).children('.icon-like')
+            $(this).children('.icon-like').attr("src", "/icon/thumb-up-fill.png");
+            $(".count-like-"+comment_id).text(data);
+          }
+        });
+      }
+
+      //좋아요 버튼 (아이콘 모양 변하는거 추가해야함, 세션에서 유저 아이디도 받아야 함)
+      function subLike (){
+        var comment_id = $(this).data('comment-id');
+
+        var likeRequest ={
+          comment_id : comment_id
+        }
+
+        $.ajax({
+          url: '/reaction/comment/like',
+          method: 'delete',
+          data: JSON.stringify(likeRequest),
+          contentType : 'application/json',
+          dataType : "json",
+          success: function(data){
+            console.log("좋아요 취소 성공" + data);
+            $(this).children('.icon-like').attr('src') = "/icon/thumb-up-fill.png';
             $(".count-like-"+comment_id).text(data);
           }
         });
       }
 
       // .on으로 이후 추가되는 요소에도 이벤트 연결해줌
-      $(document).on('click', '.btn-like', modifyLike);
+      $(document).on('click', '.btn-like', addLike);
+      $(document).on('click', '.btn-like-cancel', subLike);
 
 
     })

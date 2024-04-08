@@ -12,7 +12,7 @@ import org.springframework.data.domain.Sort;
 @AllArgsConstructor
 public class CommentPageRequestDTO {
 
-  private Long board_id;
+  private Integer board_id;
   private int page;
   private int size;
 
