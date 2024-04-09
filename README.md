@@ -179,19 +179,27 @@
 ```
 
 ## 4. 데이터베이스 모델링(ER Diagram)
-- :link: [ERD 클라우드 링크](https://www.erdcloud.com/d/DhiTdXvz6iMsy2tsu)
+:link: [ERD 클라우드 링크](https://www.erdcloud.com/d/DhiTdXvz6iMsy2tsu)
 
 <img src="https://github.com/www-author/springboot-lol-community/assets/148677085/7255b2a6-6b9a-4e56-890d-e244cb974419" alt="erd" >
 
 
 ## 5. 화면 구성
-- :link: [피그마 링크](https://www.figma.com/file/Ttj3FgTYKYZbHHF5fWPYOZ/%EB%A1%A4-%EC%A0%95%EB%B3%B4-%EC%BB%A4%EB%AE%A4%EB%8B%88%ED%8B%B0?type=design&node-id=0-1&mode=design&t=HWHVkapKhksFJNS5-0)
+:link: [피그마 링크](https://www.figma.com/file/Ttj3FgTYKYZbHHF5fWPYOZ/%EB%A1%A4-%EC%A0%95%EB%B3%B4-%EC%BB%A4%EB%AE%A4%EB%8B%88%ED%8B%B0?type=design&node-id=0-1&mode=design&t=HWHVkapKhksFJNS5-0)
 
 ## 6. API 설계서 
-- :link: [API 설계 문서](https://www.notion.so/oreumi/API-19069c3d780c4b65b5d11cb6297b2102)
+:link: [API 설계 문서](https://www.notion.so/oreumi/API-19069c3d780c4b65b5d11cb6297b2102)
 <img src="https://github.com/www-author/springboot-lol-community/assets/148677085/b89d3c76-0999-42b2-887e-81c4154c6184" width="700"  alt="api설계서">
 
 
 
 ## 7. 프로젝트 운영 관리 
-- :link: [노션 링크 참고](https://www.notion.so/oreumi/15-b6ded3552c1441279f51d1f049f63d8d)
+깃헙으로 관리하기 어려운 세부일정과 팀원들과의 협업을 위한 가이드 문서를 노션에 정리했습니다. 
+
+:link: [노션 링크 참고](https://www.notion.so/oreumi/15-b6ded3552c1441279f51d1f049f63d8d)
+
+
+### 일정 관리 
+노션 타임라인으로 세부일정을 관리합니다.  
+<img src="https://github.com/www-author/springboot-lol-community/assets/148677085/86cca9d9-13d4-43b1-9d0e-d2e8378b1d9c" alt="timdline" >
+
