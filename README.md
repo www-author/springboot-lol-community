@@ -179,9 +179,10 @@
 ```
 
 ## 4. 데이터베이스 모델링(ER Diagram)
-
-
 - :link: [ERD 클라우드 링크](https://www.erdcloud.com/d/DhiTdXvz6iMsy2tsu)
+
+<img src="https://github.com/www-author/springboot-lol-community/assets/148677085/7255b2a6-6b9a-4e56-890d-e244cb974419" alt="erd" >
+
 
 ## 5. 화면 구성
 - :link: [피그마 링크](https://www.figma.com/file/Ttj3FgTYKYZbHHF5fWPYOZ/%EB%A1%A4-%EC%A0%95%EB%B3%B4-%EC%BB%A4%EB%AE%A4%EB%8B%88%ED%8B%B0?type=design&node-id=0-1&mode=design&t=HWHVkapKhksFJNS5-0)
